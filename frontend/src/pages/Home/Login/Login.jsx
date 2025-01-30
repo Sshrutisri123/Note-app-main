@@ -2,25 +2,50 @@ import React, { useState } from 'react'; // Importing useState hook
 import bgImage from '../../../assets/logo/bgImage.jpg'; // Background image
 import logoImage from '../../../assets/logo/logo.png'; // Logo image
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useDispatch } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../../../redux/user/userSlice';
+import axios from 'axios';
 
 const Login = () => {
-  const [email, setEmail] = useState(""); // State for email
-  const [password, setPassword] = useState(""); // State for password
-  const [error, setError] = useState(""); // State for error messages
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+
     if (!email || !password) {
       setError("Email and Password are required");
     } else {
       setError("");
-      // Handle login logic here
+
     }
+    //login api
+    try {
+      dispatch(signInStart());
+      const res = await axios.post('http://localhost:3000/api/auth/signIn', {
+        email,
+        password,
+
+      }, { withCredentials: true });
+      if (res.data.success === false) {
+        dispatch(signInSuccess(res.data.message));
+      }
+      dispatch(signInSuccess(res.data));
+      navigate('/');
+    } catch {
+      console.log("error");
+      dispatch(signInFailure(error.message));
+    }
+
   };
 
   const handleSignUpRedirect = () => {
-    navigate('/signup'); // Redirect to sign-up page
+    navigate('/signup');
   };
 
   return (
