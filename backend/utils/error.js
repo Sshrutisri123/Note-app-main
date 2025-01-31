@@ -4,3 +4,4 @@ export const errorHndler = (statusCode, message ) => {
     error.message = message;
     return error;
 }
+// utils.js

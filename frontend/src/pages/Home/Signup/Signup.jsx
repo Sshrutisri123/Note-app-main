@@ -1,30 +1,48 @@
 import React, { useState } from 'react';
-import bgImage from '../../../assets/logo/bgImage.jpg'; 
-import logoImage from '../../../assets/logo/logo.png'; 
-import { useNavigate } from 'react-router-dom'; 
+import bgImage from '../../../assets/logo/bgImage.jpg';
+import logoImage from '../../../assets/logo/logo.png';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Signup = () => {
-  const [email, setEmail] = useState(""); 
-  const [password, setPassword] = useState(""); 
-  const [confirmPassword, setConfirmPassword] = useState(""); 
-  const [name, setName] = useState(""); 
-  const [error, setError] = useState(""); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required");
     }
-    if(!valiidateEmail(email)){
-      setError("Invalid Email");
-    }
-     else if (password !== confirmPassword) {
+
+    else if (password !== confirmPassword) {
       setError("Passwords do not match");
     }
-     else {
+
+    else {
       setError("");
+    }
+
+    // singup API call
+    try {
+      const res = await axios.post('http://localhost:3000/api/auth/signup', {username: name, email, password}, { withCredentials: true });
+
+      if (res.data.status === false) {
+        setError(res.data.message);
+      }
+
+      setError("");
+
+      navigate('/Login'); // Redirect to login page
+
+    } catch (error) {
+      console.log(error.message)
+      setError(error.message)
     }
   };
 
@@ -54,11 +72,11 @@ const Signup = () => {
 
       <div className="w-3/4 md:w-1/2 h-screen bg-white flex flex-col p-6">
         <div className="flex flex-col gap-6">
-          <h1 className="tracking-wide text-[1.5rem] text-center text-black font-Ubuntu">
+          <h1 className="tracking-wide text-[2.5rem] text-center text-black font-Ubuntu">
             Keep Your Notes Organized.
           </h1>
 
-          <h1 className="text-center font-lala text-[2rem] tracking-wide">Create an Account</h1>
+          <h1 className="text-center font-lala text-[2rem] tracking-wide">Welcome</h1>
         </div>
 
         <div className="flex flex-col justify-between">
@@ -68,7 +86,7 @@ const Signup = () => {
             <input
               type="text"
               placeholder="Enter your Name"
-              value={email}
+              value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-50% h-9 text-black py-1 mb-2 mt-0 mx-3 px-2 bg-transparent border border-[#D9D9D9] rounded-md"
             />
