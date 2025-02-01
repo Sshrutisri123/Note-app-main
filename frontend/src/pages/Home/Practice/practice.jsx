@@ -1,55 +1,11 @@
-import React, { useState } from 'react'; // Importing useState hook
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { useDispatch } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../../../redux/user/userSlice';
-import axios from 'axios';
+import React from 'react'
 import Practice from '../../../assets/logo/Practice.jpg'; // Logo image
 import logoImage from '../../../assets/logo/logo.png'; // Logo image
 import { FcGoogle } from "react-icons/fc";
 import { GrApple } from "react-icons/gr";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-
-    if (!email || !password) {
-      setError("Email and Password are required");
-    } else {
-      setError("");
-
-    }
-    //login api
-    try {
-      dispatch(signInStart());
-      const res = await axios.post('http://localhost:3000/api/auth/signIn', {
-        email,
-        password,
-
-      }, { withCredentials: true });
-      if (res.data.success === false) {
-        dispatch(signInSuccess(res.data.message));
-      }
-      dispatch(signInSuccess(res.data));
-      navigate('/');
-    } catch {
-      console.log("error");
-      dispatch(signInFailure(error.message));
-    }
-
-  };
-
-  const handleSignUpRedirect = () => {
-    navigate('/signup');
-  };
-
+const practice = () => {
   return (
     <div className='flex bg-gradient-to-r from-[#F8A128] to-[#F5F5F5] h-screen py-14 px-28'>
 
@@ -89,6 +45,8 @@ const Login = () => {
 
           {/*FORM*/}
           <div className='flex flex-col gap-4'>
+          <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={name}
+              onChange={(e) => setName(e.target.value)} placeholder='Name' />
             <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={email}
               onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
 
@@ -100,16 +58,7 @@ const Login = () => {
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
 
-            <div className='flex items-center justify-between'>
-              <div className="flex items-center">
-                <input type="checkbox" className="w-6 h-6 mr-2 rounded-full border-2 border-gray-400 bg-white appearance-none checked:bg-blue-500" />
-                <p className="text-sm">Remember me</p>
-
-              </div>
-              <p className="text-sm font-medium whitespace-nowrap cursor-pointer">
-                Forget Password?
-              </p>
-            </div>
+    
 
 
             <button onClick={handleSubmit} className='w-96 rounded-3xl h-11 p-4 bg-my-yellow text-white font-semibold flex items-center justify-center'>Sign In</button>
@@ -131,7 +80,7 @@ const Login = () => {
             <div className="flex items-center justify-center mt-4">
               <p className="text-sm font-normal text-[#827E7E]">
                 Don't have an account?{" "}
-                <span onClick={handleSignUpRedirect}
+                <span onClick={handleLoginRedirect}
                   className="font-semibold text-black cursor-pointer"
                 >
                   Sign Up
@@ -150,7 +99,7 @@ const Login = () => {
 
 
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default practice

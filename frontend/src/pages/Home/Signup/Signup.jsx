@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import bgImage from '../../../assets/logo/bgImage.jpg';
-import logoImage from '../../../assets/logo/logo.png';
+import Practice from '../../../assets/logo/Practice.jpg'; // Logo image
+import logoImage from '../../../assets/logo/logo.png'; // Logo image
+import { FcGoogle } from "react-icons/fc";
+import { GrApple } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -30,7 +32,7 @@ const Signup = () => {
 
     // singup API call
     try {
-      const res = await axios.post('http://localhost:3000/api/auth/signup', {username: name, email, password}, { withCredentials: true });
+      const res = await axios.post('http://localhost:3000/api/auth/signup', { username: name, email, password }, { withCredentials: true });
 
       if (res.data.status === false) {
         setError(res.data.message);
@@ -51,106 +53,98 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-start">
-      <div className="relative w-1/2 h-screen flex flex-col">
-        <img
-          src={bgImage}
-          alt="Background"
-          className="rounded-2xl object-cover w-full h-[700px]"
-        />
-        <div className="absolute top-0 left-0 w-[150px] h-[100px] bg-white overflow-hidden rounded-2xl"></div>
 
-        <img
-          src={logoImage}
-          alt="Logo"
-          className="absolute top-0 left-0 w-1/4 h-16 object-contain"
-        />
-        <span className="absolute top-0 left-24 w-1/4 h-16 text-lg font-bold -ml-1 font-Logo">
-          otetify
-        </span>
-      </div>
+    <div className='flex bg-gradient-to-r from-[#F8A128] to-[#F5F5F5] h-screen py-14 px-28'>
 
-      <div className="w-3/4 md:w-1/2 h-screen bg-white flex flex-col p-6">
-        <div className="flex flex-col gap-6">
-          <h1 className="tracking-wide text-[2.5rem] text-center text-black font-Ubuntu">
-            Keep Your Notes Organized.
-          </h1>
-
-          <h1 className="text-center font-lala text-[2rem] tracking-wide">Welcome</h1>
+      <div className='flex h-full w-full bg-white rounded-[35px] drop-shadow-[5px_5px_6px_rgba(0,0,0,0.2)]'>
+        {/*LEFT SIDE*/}
+        <div className='flex justify-center items-center w-[40%] h-full p-5'>
+          <img className='h-full w-full rounded-2xl' src={Practice} alt="logo" />
         </div>
+        {/*RIGHT SIDE*/}
+        {/*  LOGO  */}
 
-        <div className="flex flex-col justify-between">
-          <p className="text-center mb-3 text-sm">Enter your details to create an account</p>
-          <div className="box-border size-auto border-2 rounded-md w-3/5 flex flex-col p-1 mx-auto h-auto">
-            <p className="mt-0 px-2 text-sm">Full Name</p>
-            <input
-              type="text"
-              placeholder="Enter your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-50% h-9 text-black py-1 mb-2 mt-0 mx-3 px-2 bg-transparent border border-[#D9D9D9] rounded-md"
-            />
-            <p className="mt-1 px-2 text-sm">Email</p>
-            <input
-              type="email"
-              placeholder="Enter your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-50% h-9 text-black py-1 mb-2 mt-0 mx-3 px-2 bg-transparent border border-[#D9D9D9] rounded-md"
-            />
+        <div className='flex flex-col justify-center items-center w-3/5 h-full p-5'>
+          <div className=' flex justify-center items-center'>
+            <img className='size-12' src={logoImage} alt="logo" />
 
-            <p className="mt-1 px-2 text-sm">Password</p>
-            <input
-              type="password"
-              placeholder="Enter your Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-50% h-9 text-black py-1 mb-2 mt-0 mx-3 px-2 bg-transparent border border-[#D9D9D9] rounded-md"
-            />
-            <p className="mt-1 px-2 text-sm">Confirm Password</p>
-            <input
-              type="password"
-              placeholder="Re-enter your Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-50% h-9 text-black py-1 mb-2 mt-0 mx-3 px-2 bg-transparent border border-[#D9D9D9] rounded-md"
-            />
 
-            {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+            <span className=" text-2xl font-Logo ml-[-7.4%] ">
+              otetify
+            </span>
+          </div>
 
-            <div className="w-50% h-9 flex flex-col my-2">
-              <button
-                onClick={handleSubmit}
-                className="w-50% h-9 text-white mx-3 my-1 font-semibold bg-black rounded-md py-2 text-center flex items-center justify-center"
-              >
-                Sign Up
+          {/*FILL*/}
+          <div className='flex flex-col items-center gap-6'>
+            <h1 className='font-semibold text-4xl font-instumrntalSans'>
+              Keep Your Notes Organized
+            </h1>
+
+            <div className=' flex flex-col items-center' >
+              <h1 className='font-medium tracking-tight text-4xl font-instumrntalSans'>
+                Welcome Back
+              </h1>
+              <p className="text-[#7C7B7B] text-center mb-4 text-sm">Enter your Email and password to access your notes account</p>
+
+            </div>
+          </div>
+
+
+          {/*FORM*/}
+          <div className='flex flex-col gap-4'>
+            <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={name}
+              onChange={(e) => setName(e.target.value)} placeholder='Name' />
+            <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={email}
+              onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+
+
+            <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={password}
+              onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+
+
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+
+
+
+
+            <button onClick={handleSubmit} className='w-96 rounded-3xl h-11 p-4 bg-my-yellow text-white font-semibold flex items-center justify-center'>Sign In</button>
+            <div className='flex justify-center items-center gap-3'>
+              <hr className='w-32  border-[#A09F9F] border' />
+              <span className='text-[#827E7E] tracking-tight'>Or Login With</span>
+              <hr className='w-32  border-[#A09F9F] border' />
+            </div>
+            {/*GOOGLE APPLE*/}
+            <div className='flex justify-center items-center gap-4'>
+              <button>
+                <FcGoogle className='size-9' />
+              </button>
+
+              <button>
+                <GrApple className='size-9' />
               </button>
             </div>
+            <div className="flex items-center justify-center mt-4">
+              <p className="text-sm font-normal text-[#827E7E]">
+                Don't have an account?{" "}
+                <span onClick={handleLoginRedirect}
+                  className="font-semibold text-black cursor-pointer"
+                >
+                  Sign Up
+                </span>
+              </p>
+            </div>
 
-            <div className="w-50% h-3% text-[#FFFFFF] cursor-pointer mx-2 my-1 font-semibold bg-[#1877F2] border-black rounded-md py-2 text-center flex items-center justify-center shadow-md shadow-black/20">
-              Continue with Facebook
-            </div>
-            <div className="w-50% h-3% text-[#0000008A] cursor-pointer mx-2 my-1 font-semibold bg-[#FFFFFF] border-black rounded-md py-2 text-center flex items-center justify-center shadow-md shadow-black/20">
-              Continue with Google
-            </div>
-            <div className="w-50% h-3% text-[#FFFFFF] cursor-pointer mx-2 my-1 font-semibold bg-black border-black rounded-md py-2 text-center flex items-center justify-center shadow-md shadow-black/20">
-              Continue with Github
-            </div>
+
+
           </div>
 
-          <div className="flex items-center justify-center mt-3">
-            <p className="text-sm font-normal text-black">
-              Already have an account?{" "}
-              <span
-                onClick={handleLoginRedirect} // Call the redirection function
-                className="font-semibold underline underline-offset-2 cursor-pointer"
-              >
-                Log In
-              </span>
-            </p>
-          </div>
+
         </div>
       </div>
+
+
+
     </div>
   );
 };
