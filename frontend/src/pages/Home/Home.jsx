@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../../components/Sidebar/Sidebar'
-import Navbar from '../../components/Navbar'
 import Notespage from '../../components/Notespage/Notespage'
 import CreateNote from '../../components/Createnotes/CreateNote'
 import { useSelector } from 'react-redux'
@@ -28,18 +27,17 @@ const Home = () => {
 
 
   return (
-    <div className='flex flex-col h-screen'>
-      <Navbar userInfo = { userInfo } />
-      <div className='flex h-screen overflow-hidden'>
-        <div>
-          <Sidebar />
+    <div className='flex flex-col px-4 pt-4 bg-[#FFECD1] h-screen'>
+      <div className='flex h-screen gap-3 overflow-hidden'>
+        <div className='pb-4'>
+          <Sidebar userInfo = { userInfo } />
         </div>
 
         <div>
           <Notespage onNewNote={() => setIsCreateOpen(true)} />
         </div>
 
-        <div className={`w-full transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
+        <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
           <CreateNote onClose={() => setIsCreateOpen(false)} />
         </div>
       </div>
