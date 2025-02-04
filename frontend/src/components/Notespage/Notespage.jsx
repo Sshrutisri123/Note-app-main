@@ -3,31 +3,45 @@ import { FiPlus } from "react-icons/fi"
 import Notecard from '../Notecard/Notecard'
 import Searchbar from '../searchbar/searchbar'
 
-const Notespage = ({ onNewNote }) => {
+
+const Notespage = ({ onNewNote, allNotes, isCreateOpen }) => {
+
 
   return (
-    <div className='w-96 h-screen'>
-      {/* SERACH BAR     */}
-      <Searchbar />
+    <div className='w-70% h-screen px-0'>
 
-      <div className='flex w-full gap-28 mt-5'>
-        <h1 className='font-instumrntalSans font-bold text-4xl ml-3'>Notes</h1>
-        <button
-          onClick={onNewNote}
-          className='flex items-center gap-2 shadow-md drop-shadow-lg bg-my-yellow text-white font-bold py-2 px-4 rounded-2xl'><FiPlus />New Note</button>
+      <div className={`flex ${isCreateOpen ? '' : 'justify-center'}`}>
+        {/*  search bar*/}
+        <Searchbar isCreateOpen={isCreateOpen} />
       </div>
 
-      <div className='flex flex-col overflow-y-auto h-[calc(100vh-100px)] mt-3 pb-20 pr-3'>
-        <Notecard title={"Project of web"} content={"Loren is the key od loren is ithe helping sapce of the owrd inthe art of human world in here in siel in doubt in the world should be writeen her in case o fht higght os sate"} date={"10/12/2024"} />
-        <Notecard />
-        <Notecard />
-        <Notecard />
-        <Notecard />
-        <Notecard />
-        <Notecard />
-        <Notecard />
+      <div className='flex flex-col w-96 justify-between '>
+
+        <div className='flex w-full gap-5 mt-5'>
+          <h1 className='font-instumrntalSans font-semibold text-4xl ml-3'>Notes</h1>
+          <button
+            onClick={onNewNote}
+            className='flex items-center gap-2 shadow-md drop-shadow-lg bg-my-yellow text-white font-bold py-2 px-4 rounded-2xl'><FiPlus />New Note</button>
+        </div>
+
       </div>
-    </div>
+
+
+
+      <div className={`content-start flex overflow-y-auto w-full h-[calc(100vh-100px)] mt-3 gap-x-2  ${isCreateOpen ? 'flex-col' : 'flex-row flex-wrap'}`
+}>
+      {
+        allNotes.map((note, index) => (
+          <Notecard
+            key={note._id}
+            title={note.title}
+            date={note.createdAt}
+            content={note.content}
+          />
+        ))
+      }
+    </div >
+    </div >
   )
 }
 
