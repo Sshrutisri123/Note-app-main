@@ -42,7 +42,7 @@ const Home = () => {
         console.log(res.data)
       }
       else {
-        setAllNotes(res.data.note || [])
+        setAllNotes(res.data.note.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
       }
 
     } catch (error) {
@@ -50,22 +50,22 @@ const Home = () => {
     }
   }
 
-  
+
 
 
 
   return (
     <div className='flex bg-[#FFECD1] px-4 pt-4 flex-col h-screen'>
-      <div className='flex h-screen gap-2 overflow-hidden'>
+      <div className='flex h-screen gap-3 overflow-hidden'>
         <div className='pb-4'>
           <Sidebar userInfo={userInfo} />
         </div>
 
         <div>
-          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} />
+          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} closeEditor={() => {setIsCreateOpen(false)}} />
         </div>
 
-        <div className={`w-full transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
+        <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
 
           <CreateNote
             onClose={() => {

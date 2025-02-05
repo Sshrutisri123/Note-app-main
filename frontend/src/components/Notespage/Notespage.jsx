@@ -4,7 +4,7 @@ import Notecard from '../Notecard/Notecard'
 import axios from 'axios'
 
 
-const Notespage = ({ onNewNote, allNotes, isCreateOpen, onEditNote, selectedNote, getAllNotes }) => {
+const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote, selectedNote, getAllNotes }) => {
   //delete note
   const deleteNote = async (noteId) => {
     try {
@@ -16,13 +16,18 @@ const Notespage = ({ onNewNote, allNotes, isCreateOpen, onEditNote, selectedNote
       }
 
       getAllNotes()
+      if(isCreateOpen){
+        closeEditor()
+      }
+      
+      
     } catch (error) {
       console.log(error.message)
     }
   }
 
   return (
-    <div className='w-70% h-screen px-0'>
+    <div className='w-full h-screen px-0'>
 
       
 
