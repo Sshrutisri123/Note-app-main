@@ -8,9 +8,16 @@ import axios from 'axios'
 
 const Home = () => {
 
-  const { currentUser, loading, errorDispatch } = useSelector((state) => state.user)
 
+  const { currentUser, loading, errorDispatch } = useSelector((state) => state.user)
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
+  const [selectedNote, setSelectedNote] = useState(null);
+  const handleOpenEditor = (note = null) => {
+    setIsCreateOpen(true);
+    setSelectedNote(note);
+  }
+
 
   const [userInfo, setUserInfo] = useState(null)
   const [allNotes, setAllNotes] = useState([])
@@ -33,7 +40,7 @@ const Home = () => {
 
       if (res.data.success === false) {
         console.log(res.data)
-      } 
+      }
       else {
         setAllNotes(res.data.note || [])
       }
@@ -43,6 +50,10 @@ const Home = () => {
     }
   }
 
+  
+
+
+
   return (
     <div className='flex bg-[#FFECD1] px-4 pt-4 flex-col h-screen'>
       <div className='flex h-screen gap-3 overflow-hidden'>
@@ -51,12 +62,19 @@ const Home = () => {
         </div>
 
         <div>
-          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} isCreateOpen={isCreateOpen} />
+          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} />
         </div>
 
         <div className={`w-full transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
 
-          <CreateNote onClose={() => setIsCreateOpen(false)}  getAllNotes={getAllNotes}/>
+          <CreateNote
+            onClose={() => {
+              setIsCreateOpen(false);
+              setSelectedNote(null);
+            }}
+            getAllNotes={getAllNotes}
+            selectedNote={selectedNote}
+          />
         </div>
       </div>
     </div>

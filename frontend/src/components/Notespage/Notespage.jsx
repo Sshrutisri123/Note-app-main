@@ -4,7 +4,7 @@ import Notecard from '../Notecard/Notecard'
 import Searchbar from '../searchbar/searchbar'
 
 
-const Notespage = ({ onNewNote, allNotes, isCreateOpen }) => {
+const Notespage = ({ onNewNote, allNotes, isCreateOpen , onEditNote}) => {
 
 
   return (
@@ -37,6 +37,7 @@ const Notespage = ({ onNewNote, allNotes, isCreateOpen }) => {
             title={note.title}
             date={note.createdAt}
             content={note.content}
+            onClick= {() => onEditNote(note)}
           />
         ))
       }
