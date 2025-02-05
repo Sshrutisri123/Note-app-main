@@ -62,7 +62,7 @@ const Home = () => {
         </div>
 
         <div>
-          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} />
+          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} />
         </div>
 
         <div className={`w-full transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
