@@ -13,11 +13,11 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { MdOutlineWbIncandescent } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
-
+import Searchbar from '../searchbar/searchbar'
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 
-const Sidebar = () => {
+const Sidebar = ({ userInfo }) => {
 
     const [categoryisOpen, setCategoryIsOpen] = useState(false);
     const [tagisOpen, setTagIsOpen] = useState(false);
@@ -53,6 +53,7 @@ const Sidebar = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
+                    <Searchbar></Searchbar>
                     <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
                         <LuNotebookText className='w-5 h-5' />All notes
                     </button>
@@ -110,31 +111,32 @@ const Sidebar = () => {
                         )}
                     </div>
                 </div>
+            </div>
 
-                <div className='space-y-8'>
-                    <div className='flex flex-col gap-1'>
-                        <hr />
-                        <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                            <AiOutlineSetting className='w-5 h-5' />Settings
-                        </button>
-                        <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                            <MdOutlinePrivacyTip className='w-5 h-5' />Privacy policy
-                        </button>
-                        <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                            <MdOutlineWbIncandescent className='w-5 h-5' />What's new
-                        </button>
+            <div className='space-y-2'>
+                <div className='flex flex-col gap-1'>
+                    <hr />
+                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
+                        <AiOutlineSetting className='w-5 h-5' />Settings
+                    </button>
+                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
+                        <MdOutlinePrivacyTip className='w-5 h-5' />Privacy policy
+                    </button>
+                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
+                        <MdOutlineWbIncandescent className='w-5 h-5' />What's new
+                    </button>
+                </div>
+                <div className='flex flex-col border-[0.5px] border-[#000000] rounded-2xl px-2 py-3 gap-1'>
+                    <div className='flex justify-start gap-2 items-center'>
+                        <img src={profile} alt="profile" className='w-9 h-9 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform' />
+                        <span className='font-semibold'>{userInfo?.username}</span>
                     </div>
-                    <div className='flex flex-col border-[0.5px] border-[#000000] rounded-2xl px-2 py-3 gap-1'>
-                        <div className='flex justify-start gap-2 items-center'>
-                            <img src={profile} alt="profile" className='w-9 h-9 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform' />
-                            <span className='font-semibold'>John Snow</span>
-                        </div>
-                        <button className='flex justify-between bg-[#F8A025] rounded-xl p-1 px-3 font-semibold' onClick={onLogOut}>
-                            Logout <HiOutlineLogout className='w-6 h-6' />
-                        </button>
-                    </div>
+                    <button className='flex justify-between bg-[#F8A025] rounded-xl p-1 px-3 font-semibold' onClick={onLogOut}>
+                        Logout <HiOutlineLogout className='w-6 h-6' />
+                    </button>
                 </div>
             </div>
+
         </aside>
     )
 }

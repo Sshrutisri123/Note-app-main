@@ -56,7 +56,7 @@ const Home = () => {
 
   return (
     <div className='flex bg-[#FFECD1] px-4 pt-4 flex-col h-screen'>
-      <div className='flex h-screen gap-3 overflow-hidden'>
+      <div className='flex h-screen gap-2 overflow-hidden'>
         <div className='pb-4'>
           <Sidebar userInfo={userInfo} />
         </div>

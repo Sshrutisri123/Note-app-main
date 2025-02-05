@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { FiPlus } from "react-icons/fi"
 import Notecard from '../Notecard/Notecard'
 import axios from 'axios'
-import Searchbar from '../searchbar/searchbar'
 
 
 const Notespage = ({ onNewNote, allNotes, isCreateOpen, onEditNote, selectedNote, getAllNotes }) => {
@@ -25,10 +24,7 @@ const Notespage = ({ onNewNote, allNotes, isCreateOpen, onEditNote, selectedNote
   return (
     <div className='w-70% h-screen px-0'>
 
-      <div className={`flex ${isCreateOpen ? '' : 'justify-center'}`}>
-        {/*  search bar*/}
-        <Searchbar isCreateOpen={isCreateOpen} />
-      </div>
+      
 
       <div className='flex flex-col w-96 justify-between '>
 
