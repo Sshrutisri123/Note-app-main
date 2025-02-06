@@ -12,6 +12,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
     const [content, setContent] = useState("")
     const [tags, setTags] = useState([])
     const [inputTag, setInputTag] = useState("")
+    const [isPinned, setIsPinned] = useState(false)
     const [error, setError] = useState(null)
 
     useEffect(() => {
@@ -19,12 +20,20 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
             setTitle(selectedNote.title);
             setContent(selectedNote.content);
             setTags(selectedNote.tags || []);
+            setIsPinned(selectedNote.isPinned || false);
+
         } else {
             setTitle("");
             setContent("");
             setTags([]);
+            setIsPinned(false)
         }
     }, [selectedNote]);
+
+    //toggle pin
+    const togglePin = () => {
+        setIsPinned((prev) => (!prev))
+    }
 
     // add tag
     const handleAddTag = () => {
@@ -78,7 +87,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
     // edit note
     const editNote = async () => {
         try {
-            const res = await axios.post(`http://localhost:3000/api/note/edit-note/${selectedNote._id}`, { title, content, tags }, { withCredentials: true })
+            const res = await axios.post(`http://localhost:3000/api/note/edit-note/${selectedNote._id}`, { title, content, tags, isPinned }, { withCredentials: true })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -98,7 +107,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
     // add note
     const addNote = async () => {
         try {
-            const res = await axios.post("http://localhost:3000/api/note/add-note", { title, content, tags }, { withCredentials: true })
+            const res = await axios.post("http://localhost:3000/api/note/add-note", { title, content, tags, isPinned }, { withCredentials: true })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -111,6 +120,8 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
 
             setTitle("");
             setContent("");
+            setIsPinned(false);
+            setTags([]);
 
 
         } catch (error) {
@@ -149,7 +160,8 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
                 />
                 <div className="flex items-center">
                     {/*    pinned button        */}
-                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200"><TiPinOutline className="size-5" />
+                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200" onClick={togglePin}>
+                        {isPinned ? <TiPin className="size-5"/> : <TiPinOutline className="size-5" />}
                     </button>
 
                     {/* Close Button */}

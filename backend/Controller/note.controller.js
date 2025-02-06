@@ -58,7 +58,7 @@ export const editNote = async (req, res, next) => {
         if (tags) {
             note.tags = tags;
         }
-        if (isPinned) {
+        if (isPinned !== undefined) {  // ✅ Fix: Update isPinned even when false
             note.isPinned = isPinned;
         }
 
