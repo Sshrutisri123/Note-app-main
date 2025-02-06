@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { FiBold, FiItalic, FiUnderline, FiList, FiTrash, FiSave, FiX } from "react-icons/fi";
 import axios from "axios";
+import { FiPlus } from "react-icons/fi"
+import { FiChevronDown } from "react-icons/fi";
+
 
 const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
     // State for title and content
@@ -128,7 +131,12 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
                     <FiX className="size-5" />
                 </button>
             </div>
-
+            {/*            tags and category          */}
+            {/* tag and category */}
+            <div className="flex px-3 py-3 gap-2">
+                <div className="flex items-center border border-[#A9A8A8] py-1 px-2 rounded-md"><input className="focus:outline-none" type="text" placeholder="Add tags..." /><button><FiPlus /></button></div>
+                <button className="flex items-center border-[#A9A8A8] border py-1 px-2 rounded-md text-[#A9A8A8] gap-3">Category<FiChevronDown /></button>
+            </div>
             {/* Editable Content Area */}
             <div className="w-full h-full flex-grow text-gray-800 focus:outline-none rounded-2xl overflow-y-auto">
                 <textarea
