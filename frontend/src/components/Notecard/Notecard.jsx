@@ -3,7 +3,7 @@ import moment from 'moment'
 import Tagcard from '../Tagcards/Tagcard';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 
-const Notecard = ({ title, content, date, onClick, onDelete, isSelected }) => {
+const Notecard = ({ title, tags, content, date, onClick, onDelete, isSelected }) => {
     return (
         <div className='h-fit' onClick={onClick}>
             <div className={`flex justify-between flex-col w-96 h-48 rounded-3xl p-4 mt-3 ${isSelected ? "bg-my-yellow" : "bg-white"} `}>
@@ -13,7 +13,7 @@ const Notecard = ({ title, content, date, onClick, onDelete, isSelected }) => {
 
 
                 <div>
-                    <Tagcard isSelected={isSelected}/>
+                    <Tagcard tags={tags} isSelected={isSelected}/>
                 </div>
 
                 <div className='flex justify-between items-center'>

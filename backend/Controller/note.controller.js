@@ -2,7 +2,7 @@ import notes from '../Models/notes.model.js';
 import { errorHndler } from '../utils/error.js';
 
 export const addNote = async (req, res, next) => {
-    const { title, content } = req.body;
+    const { title, content, tags } = req.body;
 
     const { id } = req.user;
 
@@ -14,6 +14,7 @@ export const addNote = async (req, res, next) => {
         const newNote = new notes({
             title,
             content,
+            tags: tags || [],
             userId: id,
         });
 
@@ -40,7 +41,7 @@ export const editNote = async (req, res, next) => {
         return next(errorHndler(403, "You are not authorized to edit this note"));
     }
 
-    const { title, content } = req.body;
+    const { title, content, tags } = req.body;
 
     if (!title && !content) {
         return next(errorHndler(400, "No changes made"));
@@ -52,6 +53,10 @@ export const editNote = async (req, res, next) => {
         }
         if (content) {
             note.content = content;
+        }
+
+        if (tags) {
+            note.tags = tags;
         }
 
         await note.save();
@@ -68,40 +73,39 @@ export const editNote = async (req, res, next) => {
 }
 
 export const getAllNotes = async (req, res, next) => {
-    const userId = req.user.id;
+    const userId = req.user.id
+
     try {
         const note = await notes.find({ userId });
 
         res.status(200).json({
             success: true,
-            message: "all notes fetched successfully",
+            message: "All notes fetched successfully",
             note,
         });
 
-    }
-    catch (error) {
+    } catch (error) {
         return next(error);
     }
 }
 
-
 export const deleteNote = async (req, res, next) => {
     const noteId = req.params.noteId;
 
-    const note = await notes.findOne({_id: noteId, userId: req.user.id});
+    const note = await notes.findOne({ _id: noteId, userId: req.user.id });
 
-    if(!note){
+    if (!note) {
         return next(errorHndler(404, "Note not found"));
     }
 
-    try{
-        await notes.deleteOne({_id: noteId, userId: req.user.id})
+    try {
+        await notes.deleteOne({ _id: noteId, userId: req.user.id })
 
         res.status(200).json({
             success: true,
             message: "Note deleted successfully",
         });
-    }catch(error){
+    } catch (error) {
         return next(error);
     }
 }

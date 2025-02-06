@@ -52,6 +52,7 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
               key={note._id}
               title={note.title}
               date={note.createdAt}
+              tags={note.tags}
               content={note.content}
               isSelected={selectedNote?._id === note._id}
               onClick={() => onEditNote(note)}

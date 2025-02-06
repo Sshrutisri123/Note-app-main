@@ -1,9 +1,20 @@
 import React from 'react'
 
-const Tagcard = ({isSelected}) => {
-  return (
-    <div className={` w-fit px-2 rounded-md ${isSelected ? "bg-white text-black" : "bg-[#6C6B6B] text-white" }`}>#Work</div>
-  )
-}
+const Tagcard = ({ tags, isSelected }) => {
 
-export default Tagcard
+  return (
+    <div className="flex items-center overflow-x-auto gap-2">
+      {tags && tags.length > 0 ? (
+        tags.slice(0, 4).map((tag, index) => (
+          <span key={index} className={`flex px-2 py-1 rounded-md text-xs font-medium ${isSelected ? "bg-white text-black" : "bg-gray-300 text-gray-700"}`}>
+            {tag}
+          </span>
+        ))
+      ) : (
+        <span className="text-gray-400 text-sm">No tags</span> // Handle empty case
+      )}
+    </div>
+  );
+};
+
+export default Tagcard;
