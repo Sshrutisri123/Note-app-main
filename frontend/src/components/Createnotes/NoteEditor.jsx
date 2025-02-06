@@ -3,6 +3,8 @@ import { FiBold, FiItalic, FiUnderline, FiList, FiTrash, FiSave, FiX } from "rea
 import axios from "axios"
 import { FiPlus } from "react-icons/fi"
 import { FiChevronDown } from "react-icons/fi";
+import { TiPinOutline, TiPin } from "react-icons/ti";
+
 
 const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
 
@@ -66,11 +68,11 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
     }
 
     //consfirm delete
-const confirmDelete = () => {
-    if (window.confirm("Are you sure you want to delete this note?")) {
-       deleteNote(); // Ensure await is used properly
-    }
-};
+    const confirmDelete = () => {
+        if (window.confirm("Are you sure you want to delete this note?")) {
+            deleteNote(); // Ensure await is used properly
+        }
+    };
 
 
     // edit note
@@ -145,11 +147,16 @@ const confirmDelete = () => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
+                <div className="flex items-center">
+                    {/*    pinned button        */}
+                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200"><TiPinOutline className="size-5" />
+                    </button>
 
-                {/* Close Button */}
-                <button onClick={onClose} className=" p-2 rounded-md text-gray-500 hover:bg-gray-200">
-                    <FiX className="size-5" />
-                </button>
+                    {/* Close Button */}
+                    <button onClick={onClose} className=" p-2 rounded-md text-gray-500 hover:bg-gray-200">
+                        <FiX className="size-5" />
+                    </button>
+                </div>
 
             </div>
 
