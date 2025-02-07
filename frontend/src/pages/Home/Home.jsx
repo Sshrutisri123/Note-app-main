@@ -50,7 +50,11 @@ const Home = () => {
     }
   }
 
-
+  // pinned notes
+  const getPinnedNotes = () => {
+    const pinnedNotes = allNotes.filter(note => note.isPinned)
+    setAllNotes(pinnedNotes)
+  }
 
 
 
@@ -58,7 +62,7 @@ const Home = () => {
     <div className='flex bg-[#FFECD1] px-4 pt-4 flex-col h-screen'>
       <div className='flex h-screen gap-3 overflow-hidden'>
         <div className='pb-4'>
-          <Sidebar userInfo={userInfo} />
+          <Sidebar getPinnedNotes={getPinnedNotes} getAllNotes={getAllNotes} userInfo={userInfo} />
         </div>
 
 
