@@ -61,9 +61,9 @@ const Home = () => {
           <Sidebar userInfo={userInfo} />
         </div>
 
-        <div>
-          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} closeEditor={() => {setIsCreateOpen(false)}} />
-        </div>
+
+        <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} closeEditor={() => { setIsCreateOpen(false) }} />
+
 
         <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
 

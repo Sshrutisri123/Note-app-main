@@ -27,7 +27,7 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
   }
 
   return (
-    <div className='w-full h-screen px-0'>
+    <div className='w-auto h-screen px-0'>
 
       
 
