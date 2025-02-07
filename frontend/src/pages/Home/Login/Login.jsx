@@ -93,7 +93,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
 
 
-            <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="text" value={password}
+            <input className='border rounded-3xl border-[#A09F9F] w-96 h-11 p-4' type="password" value={password}
               onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
 
 

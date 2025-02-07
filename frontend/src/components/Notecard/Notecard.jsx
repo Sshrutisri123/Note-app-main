@@ -11,7 +11,7 @@ const Notecard = ({ title, isPinned, tags, content, date, onClick, onDelete, isS
         <div className='h-fit' onClick={onClick}>
             <div className={`flex justify-between flex-col w-96 h-48 rounded-3xl p-4 mt-3 ${isSelected ? "bg-my-yellow" : "bg-white"} `}>
                 <div className='flex flex-col gap-2'>
-                    <h1 className={`flex items-center justify-between font-bold ${isSelected ? "text-white" : "text-black"}`}>{title}<button>{isPinned ? <TiPin className='size-5' /> : <TiPinOutline className='size-5' />}
+                    <h1 className={`flex items-center justify-between font-bold ${isSelected ? "text-white" : "text-black"}`}>{title}<button>{isPinned ? <TiPin className='size-5' /> : ""}
                     </button></h1>
                     <p className={`break-words text-sm /4 ${isSelected ? "text-white" : "text-[#6F6F6F]"}`}>{content?.length > 120 ? content.slice(0, 120) + "..." : content}</p>                </div>
 
