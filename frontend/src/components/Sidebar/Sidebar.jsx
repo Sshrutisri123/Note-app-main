@@ -38,7 +38,7 @@ const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
             navigate('/Login')
 
         } catch (error) {
-            dispatch(signOutFailure(error.message))
+            dispatch(signOutFailure(error.message))}
         }
     }
 
