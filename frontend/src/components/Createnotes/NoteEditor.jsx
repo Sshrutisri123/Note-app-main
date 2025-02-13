@@ -149,10 +149,10 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose}) => {
                 </div>
                 <div className="flex gap-2">
                     {/*    pinned button        */}
-                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200" onClick={togglePin}>
+                    <button className="rounded-md px-2 py-1 text-gray-500 hover:bg-gray-200" onClick={togglePin}>
                         {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
                     </button>
-                    <button className="p-2 rounded-md hover:bg-red-200" onClick={confirmDelete} ><FiTrash className="size-4" /></button>
+                    <button className="px-2 py-1 rounded-md hover:bg-red-200" onClick={confirmDelete} ><FiTrash className="size-4" /></button>
                     <button className="flex items-center p-2 gap-2 text-sm font-light rounded-md text-white bg-gray-950"
                         onClick={selectedNote ? editNote : addNote}  ><FiSave className="size-5" /> {selectedNote ? "Update" : "Save"}</button>
                 </div>
@@ -188,7 +188,6 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose}) => {
                         onChange={(e) => setInputTag(e.target.value)} />
                     <button onClick={handleAddTag}><FiPlus /></button>
                 </div>
-                <button className="flex items-center border-[#A9A8A8] border py-1 px-2 rounded-md text-[#A9A8A8] gap-3">Category<FiChevronDown /></button>
             </div>
 
             {/* Display Added Tags */}

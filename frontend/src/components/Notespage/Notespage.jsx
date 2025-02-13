@@ -47,7 +47,7 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
 
 
 
-      <div className={`content-start flex overflow-y-auto w-full h-[calc(100vh-100px)] mt-3 gap-x-2  ${isCreateOpen ? 'flex-col' : 'flex-row flex-wrap'}`
+      <div className={`content-start flex overflow-y-auto overflow-x-hidden w-full h-[calc(100vh-100px)] mt-3 gap-x-2  ${isCreateOpen ? 'flex-col' : 'flex-row flex-wrap'}`
       }>
         {
           allNotes.map((note, index) => (
