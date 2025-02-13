@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { FiBold, FiItalic, FiUnderline, FiList, FiTrash, FiSave, FiX } from "react-icons/fi";
 import axios from "axios"
-import { FiPlus } from "react-icons/fi"
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiSidebar, FiPlus } from "react-icons/fi";
 import { TiPinOutline, TiPin } from "react-icons/ti";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
+import Sidebar from "../Sidebar/Sidebar";
 
-
-const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
+const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose}) => {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -132,18 +132,28 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
 
     return (
         <div className="flex flex-col w-full h-full bg-white  rounded-3xl pb-4 ">
-
+            <div className="flex gap-3 p-4 border-b">
+                <button className="hover:bg-gray-200 rounded-md p-1" onClick={noteClose}><FiSidebar />
+                </button> 
+                <div className="border-l px-3">
+                    <Breadcrumbs selectedNote = {selectedNote}></Breadcrumbs>
+                </div>
+            </div>
             {/* Toolbar */}
-            <div className="flex items-center justify-between border-b px-2 py-3 ">
+            <div className="flex items-center justify-between border-b p-2 ">
                 <div className="flex gap-2">
-                    <button className="p-2 rounded-md hover:bg-gray-200"><FiBold className="size-5" /></button>
-                    <button className="p-2 rounded-md hover:bg-gray-200"><FiItalic className="size-5" /></button>
-                    <button className="p-2 rounded-md hover:bg-gray-200"><FiUnderline className="size-5" /></button>
-                    <button className="p-2 rounded-md hover:bg-gray-200"><FiList className="size-5" /></button>
+                    <button className="p-2 rounded-md hover:bg-gray-200"><FiBold className="size-4" /></button>
+                    <button className="p-2 rounded-md hover:bg-gray-200"><FiItalic className="size-4" /></button>
+                    <button className="p-2 rounded-md hover:bg-gray-200"><FiUnderline className="size-4" /></button>
+                    <button className="p-2 rounded-md hover:bg-gray-200"><FiList className="size-4" /></button>
                 </div>
                 <div className="flex gap-2">
-                    <button className="flex items-center py-2 px-3 gap-2 rounded-xl border border-[#7D7B7B] text-[#4B4A4A] hover:bg-red-200" onClick={confirmDelete} ><FiTrash className="size-5" />Delete</button>
-                    <button className="flex items-center py-2 px-3 gap-2 rounded-xl text-white bg-my-yellow hover:bg-yellow-500"
+                    {/*    pinned button        */}
+                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200" onClick={togglePin}>
+                        {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
+                    </button>
+                    <button className="p-2 rounded-md hover:bg-red-200" onClick={confirmDelete} ><FiTrash className="size-4" /></button>
+                    <button className="flex items-center p-2 gap-2 text-sm font-light rounded-md text-white bg-gray-950"
                         onClick={selectedNote ? editNote : addNote}  ><FiSave className="size-5" /> {selectedNote ? "Update" : "Save"}</button>
                 </div>
             </div>
@@ -159,10 +169,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote }) => {
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <div className="flex items-center">
-                    {/*    pinned button        */}
-                    <button className="rounded-md p-2 text-gray-500 hover:bg-gray-200" onClick={togglePin}>
-                        {isPinned ? <TiPin className="size-5"/> : <TiPinOutline className="size-5" />}
-                    </button>
+                    
 
                     {/* Close Button */}
                     <button onClick={onClose} className=" p-2 rounded-md text-gray-500 hover:bg-gray-200">

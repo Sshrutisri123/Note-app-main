@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { FiPlus } from "react-icons/fi"
 import Notecard from '../Notecard/Notecard'
 import axios from 'axios'
+import Searchbar from '../searchbar/searchbar'
 
 
-const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote, selectedNote, getAllNotes }) => {
+
+const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes }) => {
   //delete note
   const deleteNote = async (noteId) => {
     try {
@@ -16,31 +18,32 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
       }
 
       getAllNotes()
-      if(isCreateOpen){
+      if (isCreateOpen) {
         closeEditor()
       }
-      
-      
+
+
     } catch (error) {
       console.log(error.message)
     }
   }
 
   return (
-    <div className='w-auto h-screen px-0'>
+    <div className='w-80 h-screen border-r'>
 
-      
+      <div className='flex flex-col w-full border-b justify-between gap-y-3 p-4'>
 
-      <div className='flex flex-col w-96 justify-between '>
-
-        <div className='flex w-full gap-5 mt-5'>
-          <h1 className='font-instumrntalSans font-semibold text-4xl ml-3'>Notes</h1>
+        <div className='flex w-full justify-between'>
+          <h1 className='font-instumrntalSans font-normal text-lg'>All Notes</h1>
           <button
             onClick={onNewNote}
-            className='flex items-center gap-2 shadow-md drop-shadow-lg bg-my-yellow text-white font-bold py-2 px-4 rounded-2xl'><FiPlus />New Note</button>
+            className='flex items-center gap-2 shadow-md bg-gray-950 text-white text-xs font-light py-1 px-2 rounded-lg'><FiPlus />New Note</button>
         </div>
 
+        <Searchbar />
+
       </div>
+
 
 
 
@@ -55,7 +58,6 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
               tags={note.tags}
               isPinned={note.isPinned}
               content={note.content}
-              isSelected={selectedNote?._id === note._id}
               onClick={() => onEditNote(note)}
               onDelete={() => deleteNote(note._id)}
             />

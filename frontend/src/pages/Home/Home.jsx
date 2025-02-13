@@ -11,7 +11,7 @@ const Home = () => {
 
   const { currentUser, loading, errorDispatch } = useSelector((state) => state.user)
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-
+  const [noteOpen, setnoteOpen] = useState(true);
   const [selectedNote, setSelectedNote] = useState(null);
   const handleOpenEditor = (note = null) => {
     setIsCreateOpen(true);
@@ -65,8 +65,10 @@ const Home = () => {
           <Sidebar getPinnedNotes={getPinnedNotes} getAllNotes={getAllNotes} userInfo={userInfo} />
         </div>
 
+        <div className={` transition-all duration-700 ease-in-out ${noteOpen ? "max-w-[400px]" : " max-w-0"}`}>
+          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} closeEditor={() => { setIsCreateOpen(false) }} />
 
-        <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} onEditNote={handleOpenEditor} selectedNote={selectedNote} isCreateOpen={isCreateOpen} closeEditor={() => { setIsCreateOpen(false) }} />
+        </div>
 
 
         <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
@@ -78,6 +80,7 @@ const Home = () => {
             }}
             getAllNotes={getAllNotes}
             selectedNote={selectedNote}
+            noteClose={() => { setnoteOpen(!noteOpen) }}
           />
         </div>
       </div>
