@@ -1,29 +1,26 @@
 import React, { useState } from 'react'
-import { RiDeleteBin5Line } from "react-icons/ri"
-import logo from '../../assets/logo/logo.png'
+import logo from '../../assets/logo/logo1.jpg'
 import profile from '../../assets/logo/profile/Profile.jpeg'
-import { HiOutlineLogout } from "react-icons/hi";
 import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { BsPinAngle } from "react-icons/bs";
-import { LuNotebookText } from "react-icons/lu";
-import { AiOutlineSetting } from "react-icons/ai";
-import { MdOutlinePrivacyTip } from "react-icons/md";
-import { MdOutlineWbIncandescent } from "react-icons/md";
-import { BiCategory } from "react-icons/bi";
-import Searchbar from '../searchbar/searchbar'
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 } from "react-icons/fi";
+
+
 
 
 const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
 
-    const [categoryisOpen, setCategoryIsOpen] = useState(false);
-    const [tagisOpen, setTagIsOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState("all")
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [activeTab, setActiveTab] = useState('all')
+
+
+
     const onLogOut = async () => {
         try {
             dispatch(signOutStart())
@@ -38,110 +35,87 @@ const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
             navigate('/Login')
 
         } catch (error) {
-            dispatch(signOutFailure(error.message))}
+            dispatch(signOutFailure(error.message))
         }
     }
 
     return (
-        <aside className="h-full bg-white w-56 flex flex-col p-5 rounded-3xl justify-between">
+        <aside className="h-full bg-zinc-100 w-14 flex flex-col p-2 border-r border-gray-300 justify-between">
 
             <div className='space-y-8'>
-                {/* Sidebar Logo */}
+                {/* side bar logo */}
                 <div className="flex items-center justify-center">
-                    <img src={logo} alt="Logo" className="-ml-5 w-16 h-16" />
-                    <span className="-ml-4 text-3xl font-normal font-Logo">otetify</span>
+                    <img src={logo} alt="Logo" className="w-8 rounded-lg" />
                 </div>
 
-                <div className="flex flex-col gap-1">
-                    <Searchbar></Searchbar>
-                    <button onClick={() => {
-                        setActiveTab('all')
-                        getAllNotes()
-                    }}
-                        className={`flex items-center gap-5 w-full px-2 py-2 font-semibold   rounded-lg transition-all ${activeTab === 'all' ? 'bg-my-yellow text-white' : 'bg-transparent, text-[#575656], hover:bg-gray-100'}`}>
-                        <LuNotebookText className='w-5 h-5' />All notes
-                    </button>
-                    <button className={`flex items-center gap-5 w-full px-2 py-2 font-semibold rounded-lg transition-all ${activeTab === "Pinned" ? "bg-my-yellow text-white" : "bg-transparent text-[#575656] hover:bg-gray-100 "}`}
+
+                <div className="flex flex-col gap-0">
+                    <button className="flex items-center justify-center  px-2 py-2 font-semibold rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all"
+                        onClick={() => {
+                            setActiveTab("all");
+                            getAllNotes();
+                        }}>
+                        <FiBookOpen className='size-4' /></button>
+
+                    <button className="flex items-center justify-center  px-2 py-2  rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all"
                         onClick={() => {
                             setActiveTab("Pinned");
                             getPinnedNotes();
                         }}
-                    ><BsPinAngle className='size-5' strokeWidth={0.5} />Pinned notes</button>
-                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                        <RiDeleteBin5Line className='w-5 h-5' />Deleted notes
-                    </button>
+                    ><FiBookmark className='size-4' /></button>
 
-                    {/* Categories Dropdown */}
-                    <div className="relative w-full">
-                        <button
-                            className=" flex items-center justify-between w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all"
-                            onClick={() => setCategoryIsOpen(!categoryisOpen)}
-                        >
-                            <div className="flex items-center gap-5">
-                                <BiCategory className="w-5 h-5" />
-                                Categories
-                            </div>
-                            {categoryisOpen ? <FiChevronUp className="w-5 h-5" /> : <FiChevronDown className="w-5 h-5" />}
-                        </button>
-                        {categoryisOpen && (
-                            <div className="bg-white absolute w-full z-50 shadow-lg rounded-lg px-2">
-                                {[{ name: "Work", color: "bg-blue-500" }, { name: "Personal", color: "bg-green-500" }, { name: "Ideas", color: "bg-yellow-500" }].map((category) => (
-                                    <div key={category.name} className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-lg transition-all">
-                                        <span className={`w-3 h-3 rounded-full ${category.color}`}></span>
-                                        <span className="text-[#575656] font-medium">{category.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    <button className='flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'><FiTrash2 className='size-4' /></button>
 
-                    {/* Tags Dropdown */}
-                    <div className="relative w-full">
-                        <button
-                            className="flex items-center justify-between w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all"
-                            onClick={() => setTagIsOpen(!tagisOpen)}
-                        >
-                            <div className="flex items-center gap-5">
-                                <BiCategory className="w-5 h-5" />
-                                Tags
-                            </div>
-                            {tagisOpen ? <FiChevronUp className="w-5 h-5" /> : <FiChevronDown className="w-5 h-5" />}
-                        </button>
-                        {tagisOpen && (
-                            <div className="absolute w-full z-40 bg-white shadow-lg rounded-lg px-2">
-                                {["#Work", "#Personal", "#Ideas"].map((tag) => (
-                                    <div key={tag} className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 rounded-lg transition-all">
-                                        <span className="text-[#575656] font-medium">{tag}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
                 </div>
+
             </div>
 
-            <div className='space-y-2'>
-                <div className='flex flex-col gap-1'>
-                    <hr />
-                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                        <AiOutlineSetting className='w-5 h-5' />Settings
-                    </button>
-                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                        <MdOutlinePrivacyTip className='w-5 h-5' />Privacy policy
-                    </button>
-                    <button className='flex items-center gap-5 w-full px-2 py-2 font-semibold text-[#575656] bg-transparent hover:bg-gray-100 rounded-lg transition-all'>
-                        <MdOutlineWbIncandescent className='w-5 h-5' />What's new
-                    </button>
+
+
+
+
+            {/* user icon */}
+            <div className="relative">
+                <div
+                    className="flex items-center gap-3  rounded-md cursor-pointer hover:bg-gray-100 transition"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                    <img src={profile} alt="profile" className="w-14 h-8 rounded-md object-cover" />
                 </div>
-                <div className='flex flex-col border-[0.5px] border-[#000000] rounded-2xl px-2 py-3 gap-1'>
-                    <div className='flex justify-start gap-2 items-center'>
-                        <img src={profile} alt="profile" className='w-9 h-9 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform' />
-                        <span className='font-semibold'>{userInfo?.username}</span>
+
+                {dropdownOpen && (
+                    <div className="absolute left-6 bottom-8 w-52 bg-white shadow-lg rounded-xl p-1 border border-gray-200 z-50">
+
+                        <div className='flex justify-start p-2 items-center gap-2 mb-1 '>
+                            <img src={profile} alt="profile" className="w-10 h-9 rounded-md object-cover" />
+                            <div className='flex flex-col'>
+                                <span className="font-medium text-gray-700">{userInfo?.username}</span>
+                                <span className="font-normal text-xs -mt-1 text-gray-950">a@gamil.com</span>
+                            </div>
+                        </div>
+
+                        <hr className='border-gray-100 my-1' />
+
+                        <div className='flex flex-col gap-0'>
+
+                            <button className='flex items-center gap-3 w-full px-2 py-2 text-sm font-normal text-gray-950 bg-transparent hover:bg-gray-100 rounded-md transition-all '><FiSettings className='size-4' />Settings</button>
+
+                            <button className='flex items-center gap-3 w-full px-2 py-2 text-sm font-normal text-gray-950 bg-transparent hover:bg-gray-100 rounded-md transition-all '><FiLock className='size-4' />Privacy</button>
+
+                            <button className='flex items-center gap-3 w-full px-2 py-2 text-sm font-normal text-gray-950 bg-transparent hover:bg-gray-100 rounded-md transition-all'><FiStar className='size-4' />What's New</button>
+                        </div>
+
+                        <hr className='border-gray-100 my-1' />
+
+                        <button
+                            className="flex items-center gap-3 w-full px-2 py-2 text-sm font-normal rounded-md text-gray-950 hover:bg-gray-100 transition"
+                            onClick={onLogOut}
+                        >
+                            <FiLogOut className='size-4' />
+                            Log out
+                        </button>
                     </div>
-                    <button className='flex justify-between bg-[#F8A025] rounded-xl p-1 px-3 font-semibold' onClick={onLogOut}>
-                        Logout <HiOutlineLogout className='w-6 h-6' />
-                    </button>
-                </div>
+                )}
             </div>
 
         </aside>

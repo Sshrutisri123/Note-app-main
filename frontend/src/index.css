@@ -3,11 +3,6 @@
 @tailwind utilities;
 
 
-body {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin: 0;
-}
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 2px; /* Width of the scrollbar */
