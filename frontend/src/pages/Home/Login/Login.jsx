@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Importing useState hook
+import React, { useState, useEffect } from 'react'; // Importing useState hook
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useDispatch } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../../../redux/user/userSlice';
@@ -11,10 +11,21 @@ import { GrApple } from "react-icons/gr";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,11 +46,19 @@ const Login = () => {
 
       }, { withCredentials: true });
       if (res.data.success === false) {
-        dispatch(signInSuccess(res.data.message));
+        dispatch(signInFailure(res.data.message));
+      } else {
+        dispatch(signInSuccess(res.data));
+        if (rememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+          localStorage.setItem("rememberedPassword", password);
+        } else {
+          localStorage.removeItem("rememberedEmail");
+          localStorage.removeItem("rememberedPassword");
+        }
+        navigate('/');
       }
-      dispatch(signInSuccess(res.data));
-      navigate('/');
-    } catch {
+    } catch (error) {
       console.log("error");
       dispatch(signInFailure(error.message));
     }
@@ -102,7 +121,7 @@ const Login = () => {
 
             <div className='flex items-center justify-between'>
               <div className="flex items-center">
-                <input type="checkbox" className="w-6 h-6 mr-2 rounded-full border-2 border-gray-400 bg-white appearance-none checked:bg-blue-500" />
+                <input type="checkbox" className="w-6 h-6 mr-2 rounded-full border-2 border-gray-400 bg-white appearance-none checked:bg-blue-500" onChange={() => setRememberMe(!rememberMe)} />
                 <p className="text-sm">Remember me</p>
 
               </div>
