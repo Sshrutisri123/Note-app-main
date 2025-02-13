@@ -132,7 +132,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose}) => {
 
     return (
         <div className="flex flex-col w-full h-full bg-white  rounded-3xl pb-4 ">
-            <div className="flex gap-3 p-4 border-b">
+            <div className="flex items-center gap-x-3 p-4 border-b">
                 <button className="hover:bg-gray-200 rounded-md p-1" onClick={noteClose}><FiSidebar />
                 </button> 
                 <div className="border-l px-3">
