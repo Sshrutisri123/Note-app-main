@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.ProseMirror:focus {
+  outline: none !important;
+}
+.tiptap ul {
+  list-style-type: disc; /* Ensures bullets appear */
+  padding-left: 20px; /* Indents the list */
+}
+
+.tiptap ol {
+  list-style-type: decimal; /* Ensures numbers appear for ordered lists */
+  padding-left: 20px;
+}
+
+.tiptap li {
+  margin-bottom: 4px;
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -21,3 +37,4 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #a0a0a0; /* Scroll thumb color on hover */
   }
+  
