@@ -19,6 +19,16 @@
   margin-bottom: 4px;
 }
 
+.tiptap a {
+  color: #007bff; /* Bootstrap blue color */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tiptap a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 3px; /* Width of the scrollbar */

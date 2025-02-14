@@ -166,8 +166,12 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
                     <button onClick={() => editorRef.current?.toggleItalic()} className="p-2 rounded-md hover:bg-gray-200"><FiItalic className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleUnderline()} className="p-2 rounded-md hover:bg-gray-200"><FiUnderline className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleBulletList()} className="p-2 rounded-md hover:bg-gray-200"><FiList className="size-4" /></button>
-                    <button className="p-2 rounded-md hover:bg-gray-200"><FiLink2 className="size-4" /></button>
-                </div>
+                    <button onClick={() => editorRef.current?.addLink()} className="p-2 rounded-md hover:bg-gray-200">
+                        <FiLink2 className="size-4" />
+                    </button>
+                    <button onClick={() => editorRef.current?.removeLink()} className="p-2 rounded-md hover:bg-gray-200">
+                        Remove Link
+                    </button>                </div>
                 <div className="flex gap-2">
                     <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={togglePin}>
                         {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
@@ -214,9 +218,9 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
             <div
                 className="w-full h-full flex-grow text-gray-700 overflow-y-auto ">
                 <div className={`w - full flex-grow ${maximize ? "px-3" : "px-52"}`}>
-                <TextEditor ref={editorRef} content={content} onChange={setContent} />
-            </div>
-            {/* <textarea
+                    <TextEditor ref={editorRef} content={content} onChange={setContent} />
+                </div>
+                {/* <textarea
           className={w-full h-full py-3 font-normal outline-none resize-none ${maximaize ? "px-3" : "px-52"}}
         placeholder="Your text here"
         rows="1"
@@ -224,7 +228,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
         onChange={(e) => setContent(e.target.value)}
         ></textarea> */}
 
-        </div>
+            </div>
         </div >
     );
 

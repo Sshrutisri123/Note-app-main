@@ -19,8 +19,16 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
             Bold, // Manually add bold
             Italic, // Manually add italic
             Underline,
-            BulletList, 
-            ListItem,// Underline is not included in StarterKit, so it's fine
+            BulletList,
+            ListItem,
+            Link.configure({
+                openOnClick: true, // Open links in new tab
+                autolink: true, // Auto-detect links
+                HTMLAttributes: {
+                    rel: "noopener noreferrer",
+                    target: "_blank",
+                },
+            }),
         ],
         content: content || "<p></p>",
         onUpdate: ({ editor }) => {
@@ -33,7 +41,14 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
         toggleBold: () => editor?.chain().focus().toggleBold().run(),
         toggleItalic: () => editor?.chain().focus().toggleItalic().run(),
         toggleUnderline: () => editor?.chain().focus().toggleUnderline().run(),
-        toggleBulletList: () => editor?.commands.toggleBulletList()
+        toggleBulletList: () => editor?.commands.toggleBulletList(),
+        addLink: () => {
+            const url = prompt("Enter the URL:");
+            if (url) {
+                editor?.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+            }
+        },
+        removeLink: () => editor?.chain().focus().unsetLink().run(),
 
     }));
 
