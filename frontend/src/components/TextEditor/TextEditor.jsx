@@ -3,32 +3,45 @@ import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Underline from "@tiptap/extension-underline";
-import BulletList from '@tiptap/extension-bullet-list';
-import Link from '@tiptap/extension-link'
-import ListItem from '@tiptap/extension-list-item';
-import { useEffect } from "react";
-import { forwardRef, useImperativeHandle } from "react";
+import BulletList from "@tiptap/extension-bullet-list";
+import ListItem from "@tiptap/extension-list-item";
+import Link from "@tiptap/extension-link";
+import Blockquote from "@tiptap/extension-blockquote";
+import Highlight from "@tiptap/extension-highlight";
+import Heading from "@tiptap/extension-heading";
+import { useEffect, forwardRef, useImperativeHandle } from "react";
 
 const TextEditor = forwardRef(({ content, onChange }, ref) => {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                bold: false, // Disable built-in bold
-                italic: false, // Disable built-in italic
+                paragraph: true,
+                bold: false,
+                italic: false,
+                bulletList: false,
+                listItem: false,
+                blockquote: false,
+                heading: false,
             }),
-            Bold, // Manually add bold
-            Italic, // Manually add italic
+            Bold,
+            Italic,
             Underline,
             BulletList,
             ListItem,
             Link.configure({
-                openOnClick: true, // Open links in new tab
-                autolink: true, // Auto-detect links
+                openOnClick: true,
+                autolink: true,
                 HTMLAttributes: {
                     rel: "noopener noreferrer",
                     target: "_blank",
                 },
             }),
+            Highlight,
+            Blockquote,
+            Heading.configure({
+                levels: [1, 2, 3],
+            }),
+         
         ],
         content: content || "<p></p>",
         onUpdate: ({ editor }) => {
@@ -36,19 +49,32 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
         },
     });
 
-
     useImperativeHandle(ref, () => ({
         toggleBold: () => editor?.chain().focus().toggleBold().run(),
         toggleItalic: () => editor?.chain().focus().toggleItalic().run(),
         toggleUnderline: () => editor?.chain().focus().toggleUnderline().run(),
         toggleBulletList: () => editor?.commands.toggleBulletList(),
-        addLink: () => {
-            const url = prompt("Enter the URL:");
-            if (url) {
-                editor?.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+        toggleHighlight: () => {
+            const isActive = editor?.isActive("highlight");
+            if (isActive) {
+                editor?.chain().focus().unsetMark("highlight").run();
+            } else {
+                editor?.chain().focus().toggleHighlight({ color: "yellow" }).run();
             }
         },
-        removeLink: () => editor?.chain().focus().unsetLink().run(),
+        toggleLink: () => {
+            const isActive = editor?.isActive("link");
+            if (isActive) {
+                editor?.chain().focus().unsetLink().run();
+            } else {
+                const url = prompt("Enter the URL:");
+                if (url) {
+                    editor?.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+                }
+            }
+        },
+        toggleBlockquote: () => editor?.chain().focus().toggleBlockquote().run(),
+        toggleHeading: (level) => editor?.chain().focus().toggleHeading({ level }).run(),
 
     }));
 
@@ -62,7 +88,6 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
 
     return (
         <div className="py-4">
-            {/* Editor */}
             <EditorContent editor={editor} />
         </div>
     );

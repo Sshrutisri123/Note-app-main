@@ -6,6 +6,9 @@ import { TiPinOutline, TiPin } from "react-icons/ti";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Sidebar from "../Sidebar/Sidebar";
 import TextEditor from "../TextEditor/TextEditor";
+import { PiHighlighterFill } from "react-icons/pi";
+import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbH1, TbH2, TbH3 } from "react-icons/tb";
+
 
 const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
 
@@ -166,12 +169,27 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
                     <button onClick={() => editorRef.current?.toggleItalic()} className="p-2 rounded-md hover:bg-gray-200"><FiItalic className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleUnderline()} className="p-2 rounded-md hover:bg-gray-200"><FiUnderline className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleBulletList()} className="p-2 rounded-md hover:bg-gray-200"><FiList className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.addLink()} className="p-2 rounded-md hover:bg-gray-200">
+
+                    <button onClick={() => editorRef.current?.toggleLink()} className="p-2 rounded-md hover:bg-gray-200">
                         <FiLink2 className="size-4" />
                     </button>
-                    <button onClick={() => editorRef.current?.removeLink()} className="p-2 rounded-md hover:bg-gray-200">
-                        Remove Link
-                    </button>                </div>
+                    <button onClick={() => editorRef.current?.toggleBlockquote()} className="p-2 rounded-md hover:bg-gray-200"><TbBlockquote className="size-4" /></button>
+
+
+                    <button onClick={() => editorRef.current?.toggleHeading(1)} className="p-2 rounded-md hover:bg-gray-200"><TbH1 className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleHeading(2)} className="p-2 rounded-md hover:bg-gray-200"><TbH2 className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleHeading(3)} className="p-2 rounded-md hover:bg-gray-200"><TbH3 className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleTextAlign('center')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignCenter className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleTextAlign('left')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignLeft className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleTextAlign('right')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignRight className="size-4" /></button>
+                    
+
+
+
+
+
+
+                </div>
                 <div className="flex gap-2">
                     <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={togglePin}>
                         {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
@@ -180,6 +198,8 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
                     <button className="flex items-center px-2 py-1 gap-2 text-sm font-light rounded-md text-white bg-gray-950"
                         onClick={selectedNote ? editNote : addNote}  ><FiSave className="size-4" /> {selectedNote ? "Update" : "Save"}</button>
                 </div>
+
+
             </div>
 
             <div className={`flex py-3 ${maximize ? "px-3" : "px-52"}`}>

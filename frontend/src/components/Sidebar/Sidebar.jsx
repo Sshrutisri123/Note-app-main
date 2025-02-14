@@ -12,6 +12,7 @@ import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 
 
 const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
 
+
     const [activeTab, setActiveTab] = useState("all")
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -50,21 +51,37 @@ const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
 
 
                 <div className="flex flex-col gap-0">
-                    <button className="flex items-center justify-center  px-2 py-2 font-semibold rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all"
+                    <button
+                        className="relative flex items-center justify-center px-2 py-2 rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all group"
                         onClick={() => {
                             setActiveTab("all");
                             getAllNotes();
                         }}>
-                        <FiBookOpen className='size-4' /></button>
+                        <FiBookOpen className='size-4' />
+                        {/* Tooltip */}
+                        <span className="absolute left-full ml-2 px-2 py-1 text-xs font-light text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                            All Notes
+                        </span>
+                    </button>
 
-                    <button className="flex items-center justify-center  px-2 py-2  rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all"
+                    <button className="relative flex items-center justify-center  px-2 py-2  rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all group"
                         onClick={() => {
                             setActiveTab("Pinned");
                             getPinnedNotes();
                         }}
-                    ><FiBookmark className='size-4' /></button>
+                    ><FiBookmark className='size-4' />
+                    {/* Tooltip */}
+                    <span className="absolute left-full ml-2 px-2 py-1 text-xs font-light text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                            Pinned Notes
+                        </span>
+                        </button>
 
-                    <button className='flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'><FiTrash2 className='size-4' /></button>
+                    <button className=' relative flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all group'><FiTrash2 className='size-4' />
+                    {/* Tooltip */}
+                    <span className="absolute left-full ml-2 px-2 py-1 text-xs font-light text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                            Deleted Notes
+                        </span>
+                    </button>
 
                 </div>
 

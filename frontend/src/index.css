@@ -5,6 +5,15 @@
 .ProseMirror:focus {
   outline: none !important;
 }
+.ProseMirror p,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+    text-align: inherit !important;
+}
+
+
+
 .tiptap ul {
   list-style-type: disc; /* Ensures bullets appear */
   padding-left: 20px; /* Indents the list */
@@ -27,6 +36,21 @@
 
 .tiptap a:hover {
   color: #0056b3; /* Darker blue on hover */
+}
+
+.tiptap blockquote {
+  border-left: 3px solid #5f5d5d;
+  padding-left: 3px;
+ 
+}
+.tiptap h1 {
+  font-size: 3em;
+}
+.tiptap h2 {
+  font-size: 2em;
+}
+.tiptap h3 {
+  font-size: 1em;
 }
 
 /* Custom scrollbar */
