@@ -34,6 +34,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
 
 
     //functions to apply bold 
+    
 
     
 
