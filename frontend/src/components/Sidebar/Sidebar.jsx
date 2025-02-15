@@ -10,10 +10,9 @@ import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 
 
 
 
-const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
+const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes, setActiveTab }) => {
 
 
-    const [activeTab, setActiveTab] = useState("all")
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
 
@@ -66,7 +65,7 @@ const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes }) => {
 
                     <button className="relative flex items-center justify-center  px-2 py-2  rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all group"
                         onClick={() => {
-                            setActiveTab("Pinned");
+                            setActiveTab("pinned");
                             getPinnedNotes();
                         }}
                     ><FiBookmark className='size-4' />

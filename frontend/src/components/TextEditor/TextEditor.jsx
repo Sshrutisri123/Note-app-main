@@ -10,6 +10,7 @@ import Blockquote from "@tiptap/extension-blockquote";
 import Highlight from "@tiptap/extension-highlight";
 import Heading from "@tiptap/extension-heading";
 import { useEffect, forwardRef, useImperativeHandle } from "react";
+import TextAlign from '@tiptap/extension-text-align';
 
 const TextEditor = forwardRef(({ content, onChange }, ref) => {
     const editor = useEditor({
@@ -22,6 +23,7 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
                 listItem: false,
                 blockquote: false,
                 heading: false,
+
             }),
             Bold,
             Italic,
@@ -41,7 +43,11 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
             Heading.configure({
                 levels: [1, 2, 3],
             }),
-         
+            TextAlign.configure({
+                types: ['heading', 'paragraph'],
+                alignments: ['left', 'right', 'center'],
+            })
+
         ],
         content: content || "<p></p>",
         onUpdate: ({ editor }) => {
@@ -75,6 +81,11 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
         },
         toggleBlockquote: () => editor?.chain().focus().toggleBlockquote().run(),
         toggleHeading: (level) => editor?.chain().focus().toggleHeading({ level }).run(),
+        setTextAlignLeft: () => editor?.chain().focus().setTextAlign('left').run(),
+        setTextAlignRight: () => editor?.chain().focus().setTextAlign('right').run(),
+        setTextAlignCenter: () => editor?.chain().focus().setTextAlign('center').run(),
+
+
 
     }));
 

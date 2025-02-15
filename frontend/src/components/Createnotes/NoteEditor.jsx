@@ -10,7 +10,7 @@ import { PiHighlighterFill } from "react-icons/pi";
 import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbH1, TbH2, TbH3 } from "react-icons/tb";
 
 
-const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
+const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }) => {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -35,6 +35,19 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
             setIsPinned(false)
         }
     }, [selectedNote]);
+
+    // Rendering tabs
+    const renderTabs = () => {
+        if (activeTab === 'all') {
+            return <p>All Notes</p>;
+        }
+        else if (activeTab === 'pinned') {
+            return <p>Pinned Notes</p>
+        }
+        else {
+            return <p>All Notes</p>
+        }
+    }
 
 
     //functions to apply bold 
@@ -149,7 +162,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
                 <div className="flex items-center gap-x-3 px-4 py-4">
                     <button className="hover:bg-gray-200 rounded-md p-1" onClick={noteClose}><FiSidebar /></button>
                     <div className="border-l px-3">
-                        <Breadcrumbs selectedNote={selectedNote} />
+                        <Breadcrumbs selectedNote={selectedNote} renderTabs={renderTabs} />
                     </div>
                 </div>
                 <div className="px-2">
@@ -179,10 +192,10 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose }) => {
                     <button onClick={() => editorRef.current?.toggleHeading(1)} className="p-2 rounded-md hover:bg-gray-200"><TbH1 className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleHeading(2)} className="p-2 rounded-md hover:bg-gray-200"><TbH2 className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleHeading(3)} className="p-2 rounded-md hover:bg-gray-200"><TbH3 className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.toggleTextAlign('center')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignCenter className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.toggleTextAlign('left')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignLeft className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.toggleTextAlign('right')} className="p-2 rounded-md hover:bg-gray-200"><TbAlignRight className="size-4" /></button>
-                    
+                    <button onClick={() => editorRef.current?.setTextAlignCenter()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignCenter className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.setTextAlignLeft()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignLeft className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.setTextAlignRight()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignRight className="size-4" /></button>
+
 
 
 

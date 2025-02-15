@@ -2,73 +2,153 @@
 @tailwind components;
 @tailwind utilities;
 
-.ProseMirror:focus {
-  outline: none !important;
-}
-.ProseMirror p,
-.ProseMirror h1,
-.ProseMirror h2,
-.ProseMirror h3 {
-    text-align: inherit !important;
+
+body {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin: 0;
 }
 
-
-
-.tiptap ul {
-  list-style-type: disc; /* Ensures bullets appear */
-  padding-left: 20px; /* Indents the list */
+mark {
+  background-color: #FAF594;
+  border-radius: 0.4rem;
+  box-decoration-break: clone;
+  padding: 0.1rem 0.3rem;
 }
 
-.tiptap ol {
-  list-style-type: decimal; /* Ensures numbers appear for ordered lists */
-  padding-left: 20px;
+blockquote {
+  border-left: 2px solid #a3a3a3;
+  /* Blue border */
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #555;
 }
 
-.tiptap li {
-  margin-bottom: 4px;
+ul {
+  list-style-type: disc;
+  /* Ensure bullets show */
+  margin-left: 1rem;
 }
 
-.tiptap a {
-  color: #007bff; /* Bootstrap blue color */
+.ProseMirror a {
+  color: rgb(82, 82, 248);
   text-decoration: underline;
   cursor: pointer;
 }
 
-.tiptap a:hover {
-  color: #0056b3; /* Darker blue on hover */
+/* Code styling */
+.hljs-comment,
+.hljs-quote {
+  color: #616161;
 }
 
-.tiptap blockquote {
-  border-left: 3px solid #5f5d5d;
-  padding-left: 3px;
- 
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f98181;
 }
-.tiptap h1 {
-  font-size: 3em;
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #fbbc88;
 }
-.tiptap h2 {
-  font-size: 2em;
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #b9f18d;
 }
-.tiptap h3 {
-  font-size: 1em;
+
+.hljs-title,
+.hljs-section {
+  color: #faf594;
 }
+
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #70cff8;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+.ProseMirror:focus {
+  outline: none !important;
+}
+
+ul[data-type="taskList"] {
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+}
+
+ul[data-type="taskList"] li {
+  display: flex;
+  align-items: center; /* Fix checkbox alignment */
+  gap: 0.5rem; /* Add space between checkbox and text */
+}
+
+ul[data-type="taskList"] li > label {
+  display: flex;
+  align-items: center; /* Ensure label and checkbox are aligned */
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+}
+
+ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+ul[data-type="taskList"] input[type="checkbox"] {
+  cursor: pointer;
+}
+
+ul[data-type="taskList"] ul[data-type="taskList"] {
+  margin-left: 1.5rem; /* Proper indentation for nested tasks */
+}
+
+
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: 3px; /* Width of the scrollbar */
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Track color */
-    border-radius: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: #bbbbbb; /* Scroll thumb color */
-    border-radius: 10px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0; /* Scroll thumb color on hover */
-  }
-  
+  width: 3px;
+  /* Width of the scrollbar */
+
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Track color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bbbbbb;
+  /* Scroll thumb color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+  /* Scroll thumb color on hover */
+}
