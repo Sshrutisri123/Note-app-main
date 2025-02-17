@@ -10,7 +10,7 @@ import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 
 
 
 
-const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes, setActiveTab }) => {
+const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes, setActiveTab}) => {
 
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -45,39 +45,36 @@ const Sidebar = ({ userInfo, getAllNotes, getPinnedNotes, setActiveTab }) => {
             <div className='space-y-8'>
                 {/* side bar logo */}
                 <div className="flex items-center justify-center">
-                    <img src={logo} alt="Logo" className="w-8 rounded-lg" />
+                    <img src={logo} alt="Logo" className="w-8 h-auto rounded-lg" />
                 </div>
 
 
                 <div className="flex flex-col gap-0">
-                    <button
-                        className="relative  flex items-center justify-center px-2 py-2 rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all group"
+                    <button className='relative group flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'
                         onClick={() => {
                             setActiveTab("all");
                             getAllNotes();
                         }}>
+                        <div className='absolute left-full top-1/2 ml-2 w-20 text-sm font-normal bg-gray-950 border text-gray-50 p-1 rounded-lg shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 -translate-y-1/2 pointer-events-none' >All Notes</div>
                         <FiBookOpen className='size-4' />
-                        {/* Tooltip */}
-                        <div className="absolute pointer-event-none left-full ml-2 px-2 py-1 text-xs font-light text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                            All Notes
-                        </div>
                     </button>
 
-                    <button className="relative flex items-center justify-center  px-2 py-2  rounded-lg bg-transparent text-[#575656] hover:bg-gray-200 transition-all group"
+                    <button className='relative group flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'
                         onClick={() => {
                             setActiveTab("pinned");
                             getPinnedNotes();
-                        }}
-                    ><FiBookmark className='size-4' />
-                        {/* Tooltip */}
-                        <div className="absolute pointer-event-none left-full ml-2 px-2 py-1 text-xs font-light text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                            Pinned Notes
-                        </div>
+                        }}>
+                        <div className='absolute left-full top-1/2 ml-2 w-20 text-sm font-normal bg-gray-950 border text-gray-50 p-1 rounded-lg shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 -translate-y-1/2 pointer-events-none' >Pinned Notes</div>
+                        <FiBookmark className='size-4' />
                     </button>
 
                     <button className='relative group flex items-center justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'>
                         <div className='absolute left-full top-1/2 ml-2 w-20 text-sm font-normal bg-gray-950 border text-gray-50 p-1 rounded-lg shadow-lg opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 -translate-y-1/2 pointer-events-none' >Trash</div>
-                        <FiTrash2 className='size-4' /></button>
+                        <FiTrash2 className='size-4' />
+                    </button>
+
+
+
 
                 </div>
 

@@ -7,7 +7,10 @@ import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Sidebar from "../Sidebar/Sidebar";
 import TextEditor from "../TextEditor/TextEditor";
 import { PiHighlighterFill } from "react-icons/pi";
-import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbH1, TbH2, TbH3 } from "react-icons/tb";
+import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbHeading, TbH1, TbH2, TbH3, TbCode, TbTable, TbStrikethrough } from "react-icons/tb";
+import { MdOutlineHorizontalRule } from "react-icons/md";
+import { FaImage } from "react-icons/fa6";
+
 
 
 const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }) => {
@@ -188,13 +191,47 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                     </button>
                     <button onClick={() => editorRef.current?.toggleBlockquote()} className="p-2 rounded-md hover:bg-gray-200"><TbBlockquote className="size-4" /></button>
 
+                    <div className="relative group inline-block">
+                        {/* Main "H" Button */}
+                        <button className="p-2 rounded-md hover:bg-gray-200 flex items-center gap-2">
+                            <TbHeading className="size-5" />
+                        </button>
 
-                    <button onClick={() => editorRef.current?.toggleHeading(1)} className="p-2 rounded-md hover:bg-gray-200"><TbH1 className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.toggleHeading(2)} className="p-2 rounded-md hover:bg-gray-200"><TbH2 className="size-4" /></button>
-                    <button onClick={() => editorRef.current?.toggleHeading(3)} className="p-2 rounded-md hover:bg-gray-200"><TbH3 className="size-4" /></button>
+                        {/* Hidden H1, H2, H3 buttons (appear on hover) */}
+                        <div className="absolute left-0 mt-1 hidden flex-col space-y-1 bg-white shadow-md p-2 rounded-md group-hover:flex">
+                            <button onClick={() => editorRef.current?.toggleHeading(1)} className="p-2 rounded-md hover:bg-gray-200">
+                                <TbH1 className="size-4" />
+                            </button>
+                            <button onClick={() => editorRef.current?.toggleHeading(2)} className="p-2 rounded-md hover:bg-gray-200">
+                                <TbH2 className="size-4" />
+                            </button>
+                            <button onClick={() => editorRef.current?.toggleHeading(3)} className="p-2 rounded-md hover:bg-gray-200">
+                                <TbH3 className="size-4" />
+                            </button>
+                        </div>
+                    </div>
+
                     <button onClick={() => editorRef.current?.setTextAlignCenter()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignCenter className="size-4" /></button>
                     <button onClick={() => editorRef.current?.setTextAlignLeft()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignLeft className="size-4" /></button>
                     <button onClick={() => editorRef.current?.setTextAlignRight()} className="p-2 rounded-md hover:bg-gray-200"><TbAlignRight className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleCodeBlock()} className="p-2 rounded-md hover:bg-gray-200"><TbCode className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleHorizontalRule()} className="p-2 rounded-md hover:bg-gray-200"><MdOutlineHorizontalRule className="size-4" /></button>
+                    <button
+                        onClick={() => {
+                            const url = prompt("Enter Image URL:");
+                            if (url) {
+                                editorRef.current?.addImage(url);
+                            }
+                        }}
+                        className="p-2 rounded-md hover:bg-gray-200"
+                    >
+                        <FaImage className="size-4" />
+                    </button>
+                    <button onClick={() => editorRef.current?.toggleTable()} className="p-2 rounded-md hover:bg-gray-200"><TbTable className="size-4" /></button>
+                    <button onClick={() => editorRef.current?.toggleStrike()} className="p-2 rounded-md hover:bg-gray-200"><TbStrikethrough className="size-4" /></button>
+
+
+
 
 
 

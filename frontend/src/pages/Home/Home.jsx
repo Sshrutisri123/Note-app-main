@@ -21,6 +21,7 @@ const Home = () => {
 
   const [userInfo, setUserInfo] = useState(null)
   const [allNotes, setAllNotes] = useState([])
+
   const [activeTab, setActiveTab] = useState("all")
 
 
@@ -58,6 +59,13 @@ const Home = () => {
     setAllNotes(pinnedNotes)
   }
 
+//get delted notes
+
+
+
+
+
+  
 
 
   return (

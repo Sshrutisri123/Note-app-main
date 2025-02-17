@@ -126,6 +126,26 @@ ul[data-type="taskList"] input[type="checkbox"] {
 ul[data-type="taskList"] ul[data-type="taskList"] {
   margin-left: 1.5rem; /* Proper indentation for nested tasks */
 }
+/* Styling for code blocks */
+pre {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-size: 14px;
+  font-family: 'Fira Code', monospace;
+}
+
+/* Highlight syntax for code blocks */
+code {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
 
 
 
@@ -151,4 +171,28 @@ ul[data-type="taskList"] ul[data-type="taskList"] {
 ::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0;
   /* Scroll thumb color on hover */
+}
+
+hr {
+  border: none;
+  height: 2px;  /* Thickness of the line */
+  background-color: rgb(83, 82, 82);  /* Solid black color */
+  margin: 20px 0;  /* Adds spacing above and below */
+}
+
+img{
+  max-width:50em;
+  height:20em;
+  margin: 0 auto;
+}
+.ProseMirror h1 {
+  font-size: 4em;
+}
+
+.ProseMirror h2 {
+  font-size: 2em;
+}
+
+.ProseMirror h3 {
+  font-size: 1em;
 }

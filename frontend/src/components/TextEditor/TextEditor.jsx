@@ -11,6 +11,17 @@ import Highlight from "@tiptap/extension-highlight";
 import Heading from "@tiptap/extension-heading";
 import { useEffect, forwardRef, useImperativeHandle } from "react";
 import TextAlign from '@tiptap/extension-text-align';
+import CodeBlock from '@tiptap/extension-code-block';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import Image from '@tiptap/extension-image';
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import Strike from '@tiptap/extension-strike'
+
+
+
 
 const TextEditor = forwardRef(({ content, onChange }, ref) => {
     const editor = useEditor({
@@ -23,6 +34,11 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
                 listItem: false,
                 blockquote: false,
                 heading: false,
+                codeBlock: false,
+                horizontalRule: false,
+                Strike: false,
+
+
 
             }),
             Bold,
@@ -46,7 +62,17 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
                 alignments: ['left', 'right', 'center'],
-            })
+            }),
+            CodeBlock,
+            HorizontalRule,
+            Image,
+            Table.configure({
+                resizable: true,
+            }),
+            TableRow,
+            TableHeader,
+            TableCell,
+            Strike,
 
         ],
         content: content || "<p></p>",
@@ -84,6 +110,17 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
         setTextAlignLeft: () => editor?.chain().focus().setTextAlign('left').run(),
         setTextAlignRight: () => editor?.chain().focus().setTextAlign('right').run(),
         setTextAlignCenter: () => editor?.chain().focus().setTextAlign('center').run(),
+        toggleCodeBlock: () => editor?.chain().focus().toggleCodeBlock().run(),
+        toggleHorizontalRule: () => editor?.chain().focus().setHorizontalRule().run(),
+        addImage: (url) => {
+            if (url) {
+                editor?.chain().focus().setImage({ src: url }).run();
+            }
+        },
+        toggleStrike: () => editor?.chain().focus().toggleStrike().run(),
+
+
+
 
 
 
