@@ -5,6 +5,7 @@ import CreateNote from '../../components/Createnotes/NoteEditor'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import logo1 from '../../assets/logo/logo1.jpg'
 
 const Home = () => {
 
@@ -54,48 +55,88 @@ const Home = () => {
   }
 
   // pinned notes
-  const getPinnedNotes = () => {
-    const pinnedNotes = allNotes.filter(note => note.isPinned)
-    setAllNotes(pinnedNotes)
+
+  const getPinnedNotes = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/note/pinned", { withCredentials: true })
+
+      if (res.data.success === false) {
+        console.log(res.data)
+      }
+      else {
+        setAllNotes(res.data.note.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  //get trashed notes
+
+  const getTrashNotes = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/note/trash", { withCredentials: true })
+
+      if (res.data.success === false) {
+        console.log(res.data)
+      }
+      else {
+        setAllNotes(res.data.note.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+
   }
 
-//get delted notes
 
 
 
-
-
-  
 
 
   return (
     <div className='flex bg-gray-50 flex-col h-screen'>
       <div className='flex h-screen overflow-hidden'>
         <div>
-          <Sidebar getPinnedNotes={getPinnedNotes} getAllNotes={getAllNotes} userInfo={userInfo} setActiveTab={setActiveTab}/>
+          <Sidebar getPinnedNotes={getPinnedNotes} getTrashNotes={getTrashNotes} getAllNotes={getAllNotes} userInfo={userInfo} setActiveTab={setActiveTab} />
         </div>
 
         <div className={` transition-all duration-700 ease-in-out ${noteOpen ? "max-w-[400px]" : " max-w-0"}`}>
-          <Notespage allNotes={allNotes}  onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} activeTab={activeTab} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} closeEditor={() => { setIsCreateOpen(false) }} />
+          <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} getAllNotes={getAllNotes} activeTab={activeTab} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} closeEditor={() => { setIsCreateOpen(false) }} />
 
         </div>
+        <div className={`w-full h-full p-7 transition-all ${isCreateOpen ? 'hidden' : 'block'}`}>
+        <div className='flex flex-col h-full justify-center items-center '>
 
+          <div className='flex justify-center items-center size-28 rounded-xl shadow-lg drop-shadow-lg border'>
+            <div className='flex justify-center items-center size-20 rounded-xl shadow-xl drop-shadow-lg border'>
+              <img className='size-14 rounded-xl shadow-xl drop-shadow-lg ' src={logo1} alt="" />
+            </div>
+          </div>
 
-        <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
-
-          <CreateNote
-            onClose={() => {
-              setIsCreateOpen(false);
-              setSelectedNote(null);
-            }}
-            activeTab = {activeTab}
-            getAllNotes={getAllNotes}
-            selectedNote={selectedNote}
-            noteClose={() => { setnoteOpen(!noteOpen) }}
-          />
+          <h1 className='font-semibold text-4xl mt-6'>Think, Memorize and Write</h1>
+          <h3 className='font-medium text-3xl mt-3 text-gray-500'>all in one place</h3>
         </div>
       </div>
+
+
+      <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
+
+        <CreateNote
+          onClose={() => {
+            setIsCreateOpen(false);
+            setSelectedNote(null);
+          }}
+          activeTab={activeTab}
+          getAllNotes={getAllNotes}
+          selectedNote={selectedNote}
+          noteClose={() => { setnoteOpen(!noteOpen) }}
+        />
+      </div>
     </div>
+    </div >
   )
 }
 

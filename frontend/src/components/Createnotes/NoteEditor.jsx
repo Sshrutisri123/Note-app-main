@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { FiBold, FiItalic, FiUnderline, FiList, FiTrash, FiSave, FiX, FiLink2 } from "react-icons/fi";
 import axios from "axios"
-import { FiChevronDown, FiSidebar, FiPlus, FiMaximize2, FiMinimize2 } from "react-icons/fi";
+import { FiChevronDown, FiSidebar, FiPlus, FiMaximize2, FiMinimize2, FiTable } from "react-icons/fi";
 import { TiPinOutline, TiPin } from "react-icons/ti";
 import Breadcrumbs from "../Breadcrumbs/Breadcrumbs";
 import Sidebar from "../Sidebar/Sidebar";
 import TextEditor from "../TextEditor/TextEditor";
-import { PiHighlighterFill } from "react-icons/pi";
-import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbHeading, TbH1, TbH2, TbH3, TbCode, TbTable, TbStrikethrough } from "react-icons/tb";
+import { PiRectangleDuotone, PiColumnsDuotone } from "react-icons/pi";
+import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbHeading, TbH1, TbH2, TbH3, TbCode, TbTable, TbStrikethrough, TbTableOff, TbColumnRemove, TbTableColumn, TbRowRemove, TbTableRow } from "react-icons/tb";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { FaImage } from "react-icons/fa6";
+import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
 
 
 
@@ -23,6 +24,21 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     const [error, setError] = useState(null)
     const [maximize, setmaximize] = useState(false)
     const editorRef = useRef(null);
+
+    const [isTableOpen, setIsTableOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    //drop down of tables
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsTableOpen(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     useEffect(() => {
         if (selectedNote) {
@@ -77,8 +93,8 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         setTags(updateTags)
     }
 
-    //delete note
-    const deleteNote = async () => {
+    //trash note
+    const trashNote = async () => {
 
         if (!selectedNote?._id) {
             console.error("Error: Note ID is missing!");
@@ -87,7 +103,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         }
 
         try {
-            const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${selectedNote._id}`, { withCredentials: true })
+            const res = await axios.put(`http://localhost:3000/api/note/move-to-trash/${selectedNote._id}`, {}, { withCredentials: true })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -95,7 +111,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                 return
             }
 
-            getAllNotes()
+            await getAllNotes()
             onClose()
 
         } catch (error) {
@@ -107,9 +123,43 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     //consfirm delete
     const confirmDelete = () => {
         if (window.confirm("Are you sure you want to delete this note?")) {
-            deleteNote(); // Ensure await is used properly
+            trashNote(); // Ensure await is used properly
         }
-    };
+    }
+
+    //delete note
+    // const deleteNote = async () => {
+
+    //     if (!selectedNote?._id) {
+    //         console.error("Error: Note ID is missing!");
+    //         setError("Note ID is missing!");
+    //         return;
+    //     }
+
+    //     try {
+    //         const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${selectedNote._id}`, { withCredentials: true })
+
+    //         if (res.data.success === false) {
+    //             console.log(res.data.message)
+    //             setError(res.data.message)
+    //             return
+    //         }
+
+    //         getAllNotes()
+    //         onClose()
+
+    //     } catch (error) {
+    //         console.log(error.message)
+    //         setError(error.message)
+    //     }
+    // }
+
+    // //consfirm delete
+    // const confirmDelete = () => {
+    //     if (window.confirm("Are you sure you want to delete this note?")) {
+    //         deleteNote(); // Ensure await is used properly
+    //     }
+    // };
 
 
     // edit note
@@ -193,9 +243,9 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
 
                     <div className="relative group inline-block">
                         {/* Main "H" Button */}
-                        <button className="p-2 rounded-md hover:bg-gray-200 flex items-center gap-2">
+                        <div className="p-2 rounded-md hover:bg-gray-200 flex items-center gap-2 cursor-pointer">
                             <TbHeading className="size-5" />
-                        </button>
+                        </div>
 
                         {/* Hidden H1, H2, H3 buttons (appear on hover) */}
                         <div className="absolute left-0 mt-1 hidden flex-col space-y-1 bg-white shadow-md p-2 rounded-md group-hover:flex">
@@ -227,7 +277,45 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                     >
                         <FaImage className="size-4" />
                     </button>
-                    <button onClick={() => editorRef.current?.toggleTable()} className="p-2 rounded-md hover:bg-gray-200"><TbTable className="size-4" /></button>
+                    <div ref={dropdownRef} onClick={() => setIsTableOpen(!isTableOpen)} className="relative group p-2 rounded-md hover:bg-gray-200 cursor-pointer"><FiTable className="size-4" />
+
+                        {isTableOpen && (
+                            <div className="absolute top-full -left-40 mt-2 flex bg-white shadow-md rounded-lg transition-opacity duration-200 border border-gray-300 p-1 z-10">
+
+                                {/* add table */}
+                                <button onClick={() => editorRef.current?.insertTable()} className="p-2 rounded-md hover:bg-gray-200"><FiTable className="size-4" /></button>
+
+                                {/* insert row */}
+                                <button onClick={() => editorRef.current?.addRowAfter()} className="p-2 rounded-md hover:bg-gray-200"><TbTableRow className="size-4" /></button>
+
+                                {/* delete row */}
+                                <button onClick={() => editorRef.current?.deleteRow()} className="p-2 rounded-md hover:bg-gray-200"><TbRowRemove className="size-4" /></button>
+
+                                {/* insert coloum */}
+                                <button onClick={() => editorRef.current?.addColumnAfter()} className="p-2 rounded-md hover:bg-gray-200"><TbTableColumn className="size-4" /></button>
+
+                                {/* delete coloum */}
+                                <button onClick={() => editorRef.current?.deleteColumn()} className="p-2 rounded-md hover:bg-gray-200"><TbColumnRemove className="size-4" /></button>
+
+                                {/* merge cell */}
+                                <button onClick={() => editorRef.current?.mergeCells()} className="p-2 rounded-md hover:bg-gray-200"><AiOutlineMergeCells className="size-4" /></button>
+
+                                {/* split cell */}
+                                <button onClick={() => editorRef.current?.splitCell()} className="p-2 rounded-md hover:bg-gray-200"><AiOutlineSplitCells className="size-4" /></button>
+
+                                {/* toggle header coloum */}
+                                <button onClick={() => editorRef.current?.toggleHeaderColumn()} className="p-2 rounded-md hover:bg-gray-200"><PiColumnsDuotone className="size-4" /></button>
+
+                                {/* header cell */}
+                                <button onClick={() => editorRef.current?.toggleHeaderCell()} className="p-2 rounded-md hover:bg-gray-200"><PiRectangleDuotone className="size-4" /></button>
+
+                                {/* delete table */}
+                                <button onClick={() => editorRef.current?.deleteTable()} className="p-2 rounded-md hover:bg-gray-200"><TbTableOff className="size-4" /></button>
+
+                            </div>
+                        )}
+                    </div>
+
                     <button onClick={() => editorRef.current?.toggleStrike()} className="p-2 rounded-md hover:bg-gray-200"><TbStrikethrough className="size-4" /></button>
 
 

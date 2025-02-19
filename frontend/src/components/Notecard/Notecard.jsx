@@ -7,14 +7,14 @@ import { PiDotsThreeOutlineLight } from "react-icons/pi";
 
 const Notecard = ({ title, content, date, tags, isPinned, onClick, onDelete }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
-
+    const plainText = content.replace(/<[^>]*>/g, '');
     return (
         <div className='w-80 h-fit border-b group' onClick={onClick}>
 
             <div className="flex justify-between flex-col w-full h-36 p-4 ">
 
                 <div className='flex flex-col gap-2'>
-                    <h1 className="flex items-center justify-between font-normal text">{title}
+                    <h1 className="flex items-center justify-between font-normal text">{title.length > 20 ? title.slice(0, 20) + "..." : title}
                         <div className='flex items-center gap-x-4'><button>{isPinned ? <TiPin className='size-5' /> : ""}</button>
                             <div className='relative'>
                                 <div>
@@ -31,7 +31,7 @@ const Notecard = ({ title, content, date, tags, isPinned, onClick, onDelete }) =
                     </h1>
 
 
-                    <p className="break-words text-xs text-gray-600" >{content?.length > 120 ? content.slice(0, 120) + "..." : content}</p>
+                    <p className="break-words text-xs text-gray-600" >{plainText?.length > 120 ? plainText.slice(0, 120) + "..." : plainText}</p>
                 </div>
 
 

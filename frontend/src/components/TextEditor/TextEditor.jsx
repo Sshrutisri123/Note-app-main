@@ -11,7 +11,8 @@ import Highlight from "@tiptap/extension-highlight";
 import Heading from "@tiptap/extension-heading";
 import { useEffect, forwardRef, useImperativeHandle } from "react";
 import TextAlign from '@tiptap/extension-text-align';
-import CodeBlock from '@tiptap/extension-code-block';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { all, common, createLowlight } from 'lowlight'
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Image from '@tiptap/extension-image';
 import Table from '@tiptap/extension-table'
@@ -24,6 +25,8 @@ import Strike from '@tiptap/extension-strike'
 
 
 const TextEditor = forwardRef(({ content, onChange }, ref) => {
+    const lowlight = createLowlight(common);
+
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -36,7 +39,7 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
                 heading: false,
                 codeBlock: false,
                 horizontalRule: false,
-                Strike: false,
+                strike: false,
 
 
 
@@ -63,7 +66,9 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
                 types: ['heading', 'paragraph'],
                 alignments: ['left', 'right', 'center'],
             }),
-            CodeBlock,
+            CodeBlockLowlight.configure({
+                lowlight,
+            }), 
             HorizontalRule,
             Image,
             Table.configure({
@@ -119,7 +124,16 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
         },
         toggleStrike: () => editor?.chain().focus().toggleStrike().run(),
 
-
+        insertTable: () => editor?.chain().focus().insertTable({ rows: 2, cols: 2, withHeaderRow: true }).run(),
+        deleteTable: () => editor?.chain().focus().deleteTable().run(),
+        addRowAfter: () => editor?.chain().focus().addRowAfter().run(),
+        addColumnAfter: () => editor?.chain().focus().addColumnAfter().run(),
+        deleteRow: () => editor?.chain().focus().deleteRow().run(),
+        deleteColumn: () => editor?.chain().focus().deleteColumn().run(),
+        mergeCells: () => editor?.chain().focus().mergeCells().run(),
+        splitCell: () => editor?.chain().focus().splitCell().run(),
+        toggleHeaderColumn: () => editor?.chain().focus().toggleHeaderColumn().run(),
+        toggleHeaderCell: () => editor?.chain().focus().toggleHeaderCell().run(),
 
 
 
