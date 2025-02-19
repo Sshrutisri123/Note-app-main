@@ -6,7 +6,7 @@ import Searchbar from '../searchbar/searchbar'
 
 
 
-const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab }) => {
+const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab }) => {
   // Rendering tabs
   const renderTabs = () => {
     if (activeTab === 'all') {
@@ -33,6 +33,28 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
       }
 
       await getAllNotes()
+      if (isCreateOpen) {
+        closeEditor()
+      }
+
+
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  //restrore
+
+  const restoreNote = async (noteId) => {
+    try {
+      const res = await axios.put(`http://localhost:3000/api/note/restore-note/${noteId}`, {}, { withCredentials: true })
+
+      if (res.data.success === false) {
+        console.log(res.data.message)
+        return
+      }
+
+      await getTrashNotes()
       if (isCreateOpen) {
         closeEditor()
       }
@@ -75,6 +97,8 @@ const Notespage = ({ onNewNote, allNotes, closeEditor, isCreateOpen, onEditNote,
               content={note.content}
               onClick={() => onEditNote(note)}
               onDelete={() => trashNote(note._id)}
+              onRestore={() => restoreNote(note._id)}
+              activeTab={activeTab}
             />
           ))
         }

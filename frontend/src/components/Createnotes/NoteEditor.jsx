@@ -63,6 +63,9 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         else if (activeTab === 'pinned') {
             return <p>Pinned Notes</p>
         }
+        else if (activeTab === 'trash') {
+            return <p>Trash Notes</p>
+        }
         else {
             return <p>All Notes</p>
         }
@@ -120,46 +123,39 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         }
     }
 
-    //consfirm delete
-    const confirmDelete = () => {
-        if (window.confirm("Are you sure you want to delete this note?")) {
-            trashNote(); // Ensure await is used properly
+    //delete note
+    const deleteNote = async () => {
+
+        if (!selectedNote?._id) {
+            console.error("Error: Note ID is missing!");
+            setError("Note ID is missing!");
+            return;
+        }
+
+        try {
+            const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${selectedNote._id}`, { withCredentials: true })
+
+            if (res.data.success === false) {
+                console.log(res.data.message)
+                setError(res.data.message)
+                return
+            }
+
+            getAllNotes()
+            onClose()
+
+        } catch (error) {
+            console.log(error.message)
+            setError(error.message)
         }
     }
 
-    //delete note
-    // const deleteNote = async () => {
-
-    //     if (!selectedNote?._id) {
-    //         console.error("Error: Note ID is missing!");
-    //         setError("Note ID is missing!");
-    //         return;
-    //     }
-
-    //     try {
-    //         const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${selectedNote._id}`, { withCredentials: true })
-
-    //         if (res.data.success === false) {
-    //             console.log(res.data.message)
-    //             setError(res.data.message)
-    //             return
-    //         }
-
-    //         getAllNotes()
-    //         onClose()
-
-    //     } catch (error) {
-    //         console.log(error.message)
-    //         setError(error.message)
-    //     }
-    // }
-
-    // //consfirm delete
-    // const confirmDelete = () => {
-    //     if (window.confirm("Are you sure you want to delete this note?")) {
-    //         deleteNote(); // Ensure await is used properly
-    //     }
-    // };
+    //consfirm delete
+    const confirmDelete = () => {
+        if (window.confirm("Are you sure you want to delete this note?")) {
+            deleteNote(); // Ensure await is used properly
+        }
+    };
 
 
     // edit note
@@ -332,7 +328,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                     <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={togglePin}>
                         {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
                     </button>
-                    <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={confirmDelete} ><FiTrash className="size-4" /></button>
+                    <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={() => (activeTab === 'trash' ? confirmDelete() : trashNote())} ><FiTrash className="size-4" /></button>
                     <button className="flex items-center px-2 py-1 gap-2 text-sm font-light rounded-md text-white bg-gray-950"
                         onClick={selectedNote ? editNote : addNote}  ><FiSave className="size-4" /> {selectedNote ? "Update" : "Save"}</button>
                 </div>
