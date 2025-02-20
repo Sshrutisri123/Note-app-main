@@ -7,7 +7,7 @@ import { PiDotsThreeOutlineLight } from "react-icons/pi";
 import { CiUndo } from "react-icons/ci";
 
 
-const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, onDelete, onRestore }) => {
+const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, onDelete, onRestore, onTrash }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const plainText = content.replace(/<[^>]*>/g, '');
     return (
@@ -25,9 +25,15 @@ const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, on
 
                                 {dropdownOpen && (
                                     <div className="absolute right-0 w-28 gap-1 p-1 bg-white border shadow-md rounded-md">
-                                        <button className='flex w-full font-light gap-x-2 text-sm items-center p-1 rounded-md hover:bg-gray-100' onClick={(e) => { e.stopPropagation(); onDelete(); }} ><AiOutlineDelete />Delete</button>
+                                        {(activeTab === 'pinned' || activeTab === 'all') && (
+                                            <button className='flex w-full font-light gap-x-2 text-sm items-center p-1 rounded-md hover:bg-gray-100' onClick={(e) => { e.stopPropagation(); onTrash(); }} ><AiOutlineDelete />Trash</button>
+                                        )}
+
                                         {activeTab === 'trash' && (
-                                            <button className='flex w-full font-light gap-x-2 text-sm items-center p-1 rounded-md hover:bg-gray-100' onClick={(e) => { e.stopPropagation(); onRestore(); }} ><CiUndo />Restore</button>
+                                            <>
+                                                <button className='flex w-full font-light gap-x-2 text-sm items-center p-1 rounded-md hover:bg-gray-100' onClick={(e) => { e.stopPropagation(); onDelete(); }} ><AiOutlineDelete />Delete</button>
+                                                <button className='flex w-full font-light gap-x-2 text-sm items-center p-1 rounded-md hover:bg-gray-100' onClick={(e) => { e.stopPropagation(); onRestore(); }} ><CiUndo />Restore</button>
+                                            </>
                                         )}
                                     </div>
                                 )}

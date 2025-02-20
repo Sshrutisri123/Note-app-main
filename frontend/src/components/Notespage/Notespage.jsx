@@ -6,7 +6,7 @@ import Searchbar from '../searchbar/searchbar'
 
 
 
-const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab }) => {
+const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab }) => {
   // Rendering tabs
   const renderTabs = () => {
     if (activeTab === 'all') {
@@ -22,7 +22,7 @@ const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpe
       return <p>All Notes</p>
     }
   }
-  //delete note
+  //trash note
   const trashNote = async (noteId) => {
     try {
       const res = await axios.put(`http://localhost:3000/api/note/move-to-trash/${noteId}`, {}, { withCredentials: true })
@@ -64,6 +64,30 @@ const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpe
       console.log(error.message)
     }
   }
+  //delete note
+  const deleteNote = async (noteId) => {
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${noteId}`, { withCredentials: true })
+
+      if (res.data.success === false) {
+        console.log(res.data.message)
+        return
+      }
+
+      await getAllNotes()
+      if (isCreateOpen) {
+        closeEditor()
+      }
+
+
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  //search query
+  const [searchQuery, setSearchQuery] = useState('')
+  const filterNotes = allNotes.filter(note => note.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
     <div className='w-80 h-screen border-r'>
@@ -77,17 +101,16 @@ const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpe
             className='flex items-center gap-2 shadow-md bg-gray-950 text-white text-xs font-light py-1 px-2 rounded-lg'><FiPlus />New Note</button>
         </div>
 
-        <Searchbar />
+        <Searchbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
 
       </div>
 
 
 
 
-      <div className={`content-start flex overflow-y-auto overflow-x-hidden w-full h-[calc(100vh-100px)] mt-3 gap-x-2  ${isCreateOpen ? 'flex-col' : 'flex-row flex-wrap'}`
-      }>
-        {
-          allNotes.map((note, index) => (
+      <div className="content-start flex flex-col overflow-y-auto overflow-x-hidden w-full h-[calc(100vh-100px)] gap-x-2">
+        {filterNotes.length > 0 ? (
+          filterNotes.map((note, index) => (
             <Notecard
               key={note._id}
               title={note.title}
@@ -96,12 +119,16 @@ const Notespage = ({ onNewNote,getTrashNotes, allNotes, closeEditor, isCreateOpe
               isPinned={note.isPinned}
               content={note.content}
               onClick={() => onEditNote(note)}
-              onDelete={() => trashNote(note._id)}
+              onTrash={() => trashNote(note._id)}
               onRestore={() => restoreNote(note._id)}
               activeTab={activeTab}
+
+              onDelete={() => deleteNote(note._id)}
             />
           ))
+        ) : (<p className='text-center mt-5'>Note not found</p>)
         }
+
       </div >
     </div >
   )
