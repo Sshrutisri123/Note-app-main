@@ -126,7 +126,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
               onDelete={() => deleteNote(note._id)}
             />
           ))
-        ) : (<p className='text-center mt-5'>Note not found</p>)
+        ) : (<p className='text-center mt-5'>Note note found</p>)
         }
 
       </div >

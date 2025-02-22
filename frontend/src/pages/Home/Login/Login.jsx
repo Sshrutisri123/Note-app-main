@@ -6,10 +6,13 @@ import axios from 'axios';
 import Logo1 from '../../../assets/logo/logo1.jpg';
 import { FcGoogle } from "react-icons/fc";
 import { GrApple } from "react-icons/gr";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
 
@@ -108,9 +111,22 @@ const Login = () => {
                 <h3 className='text-sm'>Password</h3>
                 <h3 className='text-sm'>Forgot password</h3>
               </div>
-              <input className='border w-80 rounded-lg h-7 p-4 mt-2 text-sm' type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+              <div className="relative">
+                <input
+                  className="border w-80 rounded-lg h-7 p-4 mt-2 text-sm pr-10"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                />
+                <button
+                  type="button"
+                  className="absolute mt-4 right-3 text-gray-500"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <IoEyeOffOutline size={18} /> : <IoEyeOutline size={18} />}
+                </button>
+              </div>
             </div>
 
 
