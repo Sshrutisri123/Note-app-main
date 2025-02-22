@@ -9,11 +9,12 @@ import { CiUndo } from "react-icons/ci";
 
 const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, onDelete, onRestore, onTrash }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const currentDate = new Date().toLocaleDateString();
     const plainText = content.replace(/<[^>]*>/g, '');
     return (
         <div className='w-80 h-fit border-b group' onClick={onClick}>
 
-            <div className="flex justify-between flex-col w-full h-36 hover:bg-gray-200 transition-transform duration-300 hover:scale-105 hover:shadow-lg p-4 ">
+            <div className="flex justify-between flex-col w-full h-36 hover:bg-gray-200  transition-transform duration-300 hover:scale-105 hover:shadow-lg p-4 ">
 
                 <div className='flex flex-col gap-2'>
                     <h1 className="flex items-center justify-between font-normal text">{title.length > 20 ? title.slice(0, 20) + "..." : title}
@@ -48,7 +49,18 @@ const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, on
 
                 <div className='flex justify-between items-center '>
                     <Tagcard tags={tags} />
-                    <h3 className="text-xs font-light text-gray-600">{moment(date).startOf('day').fromNow()}</h3>
+                    <h3 className="text-xs font-light text-gray-600"><h3 className="text-xs font-light text-gray-600">
+                        {
+                            moment().diff(moment(date), 'seconds') < 10
+                                ? "Now"
+                                : moment().isSame(moment(date), 'day')
+                                    ? moment(date).fromNow()
+                                    : moment().diff(moment(date), 'days') === 1
+                                        ? "Yesterday"
+                                        : moment(date).format("MMMM D, YYYY")
+                        }
+                    </h3>
+                    </h3>
                 </div >
 
                 {/* <div className='flex justify-between items-center'>

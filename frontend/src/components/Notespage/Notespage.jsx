@@ -108,7 +108,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
 
 
 
-      <div className="content-start flex flex-col overflow-y-auto overflow-x-hidden w-full h-[calc(100vh-100px)] gap-x-2">
+      <div className="content-start flex flex-col  overflow-y-auto overflow-x-hidden w-full h-[calc(100vh-100px)] gap-x-2">
         {filterNotes.length > 0 ? (
           filterNotes.map((note, index) => (
             <Notecard
