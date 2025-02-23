@@ -46,6 +46,7 @@ const Login = () => {
       if (res.data.success === false) {
         dispatch(signInFailure(res.data.message));
       } else {
+
         dispatch(signInSuccess(res.data));
         if (rememberMe) {
           localStorage.setItem("rememberedEmail", email);
