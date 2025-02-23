@@ -25,7 +25,7 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
         try {
             dispatch(signOutStart())
 
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/signout`, { withCredentials: true })
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signout`, {}, { withCredentials: true });
 
             if (res.data.success === false) {
                 dispatch(signOutFailure(res.data.message))
