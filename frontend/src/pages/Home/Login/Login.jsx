@@ -42,8 +42,10 @@ const Login = () => {
     //login api
     try {
       dispatch(signInStart());
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/signin`, { withCredentials: true });
-      if (res.data.success === false) {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signin`, {
+        email,
+        password
+      }, { withCredentials: true }); if (res.data.success === false) {
         dispatch(signInFailure(res.data.message));
       } else {
 
