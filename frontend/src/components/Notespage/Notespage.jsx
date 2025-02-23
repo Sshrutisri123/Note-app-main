@@ -25,7 +25,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
   //trash note
   const trashNote = async (noteId) => {
     try {
-      const res = await axios.put(`http://localhost:3000/api/note/move-to-trash/${noteId}`, {}, { withCredentials: true })
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/move-to-trash/${noteId}`, {}, { withCredentials: true })
 
       if (res.data.success === false) {
         console.log(res.data.message)
@@ -47,7 +47,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
 
   const restoreNote = async (noteId) => {
     try {
-      const res = await axios.put(`http://localhost:3000/api/note/restore-note/${noteId}`, {}, { withCredentials: true })
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/restore-note/${noteId}`, {}, { withCredentials: true })
 
       if (res.data.success === false) {
         console.log(res.data.message)
@@ -67,7 +67,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
   //delete note
   const deleteNote = async (noteId) => {
     try {
-      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note`, { withCredentials: true })
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note/${noteId}`, { withCredentials: true })
 
       if (res.data.success === false) {
         console.log(res.data.message)
