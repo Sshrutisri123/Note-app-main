@@ -42,11 +42,7 @@ const Login = () => {
     //login api
     try {
       dispatch(signInStart());
-      const res = await axios.post('http://localhost:3000/api/auth/signIn', {
-        email,
-        password,
-
-      }, { withCredentials: true });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/login`, { withCredentials: true });
       if (res.data.success === false) {
         dispatch(signInFailure(res.data.message));
       } else {

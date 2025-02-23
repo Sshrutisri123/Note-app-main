@@ -67,7 +67,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
   //delete note
   const deleteNote = async (noteId) => {
     try {
-      const res = await axios.delete(`http://localhost:3000/api/note/delete-note/${noteId}`, { withCredentials: true })
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note`, { withCredentials: true })
 
       if (res.data.success === false) {
         console.log(res.data.message)
