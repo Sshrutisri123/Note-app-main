@@ -185,7 +185,9 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     // add note
     const addNote = async () => {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/add-note`, { withCredentials: true })
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/add-note`,
+                { title, content, tags, isPinned },
+                { withCredentials: true })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
