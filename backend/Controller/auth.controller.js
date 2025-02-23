@@ -50,7 +50,12 @@ export const signin = async (req, res, next) => {
 
         const { password: pass, ...rest } = validUser._doc;
 
-        res.cookie("access_token", token, { httpOnly: true, }).status(200).json({
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true
+
+        }).status(200).json({
             sucess: true,
             message: "logged in successfully",
             rest,

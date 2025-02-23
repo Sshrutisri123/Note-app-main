@@ -1,0 +1,82 @@
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.local
+
+# Node.js dependencies
+/node_modules
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml
+
+# Logs
+/logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pm2.log
+*.pid
+*.seed
+*.pid.lock
+
+# Cache files
+/.eslintcache
+/.cache
+/.turbo
+
+# Debug and diagnostic files
+/coverage
+/.nyc_output
+/.vscode/
+*.swp
+*.swo
+*.bak
+
+# Build files
+/dist
+/build
+/out
+/.next
+/.nuxt
+/.parcel-cache
+
+# Dependency directories
+/.pnp
+.pnp.js
+
+# Test output
+/junit.xml
+/coverage
+/mocha.json
+/nyc_output
+/tap-output.*
+
+# OS-specific files (Windows/macOS)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# IDEs and editors
+.idea/
+.vscode/
+*.code-workspace
+
+# Ignore lock files for package managers (optional)
+.pnpm-debug.log
+.pnpm-lock.yaml
+
+# Ignore VSCode settings (optional)
+.vscode/
+
+# Ignore specific server files (customize for your setup)
+pm2.log
+server.log
