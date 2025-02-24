@@ -125,8 +125,7 @@ const Home = () => {
         </div>
 
 
-        <div className={`w-full pb-4 transition-all ${isCreateOpen ? 'block' : 'hidden'}`}>
-
+        <div className={`transition-all duration-300 ease-in-out z-50 ${isCreateOpen ? 'translate-x-0 sm:block' : 'translate-x-full sm:hidden'} fixed top-0 right-0 w-full sm:static sm:translate-x-0 sm:w-full sm:h-full sm:shadow-none sm:transition-none`}>
           <CreateNote
             onClose={() => {
               setIsCreateOpen(false);

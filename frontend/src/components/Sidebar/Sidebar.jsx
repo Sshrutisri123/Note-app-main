@@ -99,7 +99,7 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
                     <img src={profile} alt="profile" className="w-14 sm:w-10 h-8 rounded-md object-cover" />
-                    <div className='flex-col sm:hidden block'>
+                    <div className='flex flex-col sm:hidden'>
                         <span className="font-medium text-gray-700">{userInfo?.username}</span>
                         <span className="font-normal text-xs -mt-1 text-gray-950">{userInfo?.email}</span>
                     </div>

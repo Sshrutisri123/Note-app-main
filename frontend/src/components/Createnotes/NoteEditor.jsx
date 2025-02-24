@@ -211,18 +211,17 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     }
 
     return (
-        <div className="flex flex-col w-full h-full bg-white  rounded-3xl pb-4 ">
-
+        <div className="flex flex-col w-full h-dvh sm:h-screen bg-white rounded-3xl">
             <div className="flex justify-between items-center border-b">
                 <div className="flex items-center gap-x-3 px-4 py-4">
-                    <button className="hover:bg-gray-200 rounded-md p-1" onClick={noteClose}><FiSidebar /></button>
+                    <button className="hover:bg-gray-200 rounded-md hidden sm:block p-1" onClick={noteClose}><FiSidebar /></button>
                     <div className="border-l px-3">
                         <Breadcrumbs selectedNote={selectedNote} confirmTabs={confirmTabs} />
                     </div>
                 </div>
                 <div className="px-2">
                     {/* maximaize button */}
-                    <button onClick={() => setmaximize(!maximize)} className="p-2 rounded-md text-gray-950 hover:bg-gray-200">{maximize ? <FiMinimize2 /> : <FiMaximize2 />}</button>
+                    <button onClick={() => setmaximize(!maximize)} className="p-2 hidden sm:block rounded-md text-gray-950 hover:bg-gray-200">{maximize ? <FiMinimize2 /> : <FiMaximize2 />}</button>
                     {/* Close Button */}
                     <button onClick={onClose} className=" p-2 rounded-md text-gray-950 hover:bg-gray-200">
                         <FiX className="size-4" />
@@ -342,53 +341,55 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
 
             </div>
 
-            <div className={`flex py-3 ${maximize ? "px-3" : "px-52"}`}>
-                {/* Title Input */}
-                <input
-                    type="text"
-                    className="w-full text-3xl font-bold focus:outline-none"
-                    placeholder="Enter title..."
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>
+            {/* Editor space */}
+            <div className={`flex flex-col ${maximize ? "px-3" : "px-4 sm:px-52"} overflow-y-auto `}>
 
-            {/* tag and category */}
-            <div className={`flex py-3 gap-2 ${maximize ? "px-3" : "px-52"}`}>
-                <div className="flex items-center border py-1 px-2 rounded-md">
-                    <input className="focus:outline-none text-sm"
-                        type="text" placeholder="Add tags..."
-                        value={inputTag}
-                        onChange={(e) => setInputTag(e.target.value)} />
-                    <button onClick={handleAddTag}><FiPlus /></button>
+                <div className={`flex py-3 mt-9 `}>
+                    {/* Title Input */}
+                    <input
+                        type="text"
+                        className="w-full text-3xl font-bold focus:outline-none"
+                        placeholder="Enter title..."
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
                 </div>
-            </div>
 
-            {/* Display Added Tags */}
-            <div className={`flex flex-wrap gap-2 ${maximize ? "px-3" : "px-52"}`}>
-                {tags.map((tag, index) => (
-                    <div key={index} className="flex items-center bg-gray-200 py-1 px-2 rounded-md">
-                        <span className="text-sm font-normal">{tag}</span>
-                        <button onClick={() => handleDeleteTag(index)} className="ml-2 text-black"><FiX className="size-4" /></button>
+                {/* tag and category */}
+                <div className={`flex py-3 gap-2 `}>
+                    <div className="flex items-center border py-1 px-2 rounded-md">
+                        <input className="focus:outline-none text-sm"
+                            type="text" placeholder="Add tags..."
+                            value={inputTag}
+                            onChange={(e) => setInputTag(e.target.value)} />
+                        <button onClick={handleAddTag}><FiPlus /></button>
                     </div>
-                ))}
-            </div>
-
-            {/* Editable Content Area */}
-            <div
-                className="w-full h-full flex-grow text-gray-700 overflow-y-auto ">
-                <div className={`w - full flex-grow ${maximize ? "px-3" : "px-52"}`}>
-                    <TextEditor ref={editorRef} content={content} onChange={setContent} />
                 </div>
-                {/* <textarea
-          className={w-full h-full py-3 font-normal outline-none resize-none ${maximaize ? "px-3" : "px-52"}}
-        placeholder="Your text here"
-        rows="1"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        ></textarea> */}
+
+                {/* Display Added Tags */}
+                <div className={`flex flex-wrap gap-2 `}>
+                    {tags.map((tag, index) => (
+                        <div key={index} className="flex items-center bg-gray-200 py-1 px-2 rounded-md">
+                            <span className="text-sm font-normal">{tag}</span>
+                            <button onClick={() => handleDeleteTag(index)} className="ml-2 text-black"><FiX className="size-4" /></button>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Editable Content Area */}
+                <div
+                    className="w-full h-full flex-grow text-gray-700  ">
+                    <div className={`w-full flex-grow `}>
+                        <TextEditor ref={editorRef} content={content} onChange={setContent} />
+                    </div>
+                </div>
 
             </div>
+
+
+
+
+
         </div >
     );
 
