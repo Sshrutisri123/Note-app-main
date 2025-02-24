@@ -4,9 +4,10 @@ import Notecard from '../Notecard/Notecard'
 import axios from 'axios'
 import Searchbar from '../searchbar/searchbar'
 
+import logo from '../../assets/logo/logo1.jpg'
 
 
-const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab }) => {
+const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab, setOpenSidebarMobile }) => {
   // Rendering tabs
   const renderTabs = () => {
     if (activeTab === 'all') {
@@ -90,11 +91,13 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
   const filterNotes = allNotes.filter(note => note.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
-    <div className='w-80 h-screen border-r'>
+    <div className='sm:w-80 w-dvw h-dvh sm:h-screen border-r'>
 
       <div className='flex flex-col w-full border-b justify-between gap-y-3 p-4'>
 
         <div className='flex w-full justify-between'>
+          <img src={logo} onClick={() => setOpenSidebarMobile((prev) => !prev)} alt="Logo" className="w-7 sm:w-8 block sm:hidden h-auto rounded-lg" />
+
           <h1 className='font-instumrntalSans font-normal text-lg'>{renderTabs()}</h1>
           <button
             onClick={onNewNote}
