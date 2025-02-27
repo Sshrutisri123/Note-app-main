@@ -211,7 +211,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     }
 
     return (
-        <div className="flex flex-col w-full h-dvh sm:h-screen bg-white rounded-3xl">
+        <div className="flex flex-col w-dvw sm:w-full h-dvh sm:h-screen bg-white rounded-3xl">
             <div className="flex justify-between items-center border-b">
                 <div className="flex items-center gap-x-3 px-4 py-4">
                     <button className="hover:bg-gray-200 rounded-md hidden sm:block p-1" onClick={noteClose}><FiSidebar /></button>
@@ -230,7 +230,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
             </div>
 
             {/* Toolbar */}
-            <div className="flex items-center justify-between border-b px-2 py-2 ">
+            <div className="flex items-center justify-between border-b px-2 py-2 overflow-x-scroll sm:overflow-x-visible scrollbar-thin">
                 <div className="flex gap-2">
                     <button onClick={() => editorRef.current?.toggleBold()} className="p-2 rounded-md hover:bg-gray-200" ><FiBold className="size-4" /></button>
                     <button onClick={() => editorRef.current?.toggleItalic()} className="p-2 rounded-md hover:bg-gray-200"><FiItalic className="size-4" /></button>

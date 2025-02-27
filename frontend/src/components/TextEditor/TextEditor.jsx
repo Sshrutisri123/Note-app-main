@@ -68,7 +68,7 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
             }),
             CodeBlockLowlight.configure({
                 lowlight,
-            }), 
+            }),
             HorizontalRule,
             Image,
             Table.configure({
@@ -149,7 +149,7 @@ const TextEditor = forwardRef(({ content, onChange }, ref) => {
     if (!editor) return null;
 
     return (
-        <div className="py-4">
+        <div className="[&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:border [&_img]:border-gray-300 [&_img]:shadow-md [&_img]:mx-auto [&_img]:block-4">
             <EditorContent editor={editor} />
         </div>
     );

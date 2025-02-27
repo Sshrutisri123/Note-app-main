@@ -99,12 +99,12 @@ const Home = () => {
   return (
     <div className='flex bg-gray-50 flex-col h-screen'>
       <div className='flex h-screen overflow-hidden'>
-        <div className={` trasnform transition-transform duration-100 ${openSidebarMobile ? 'z-50 absolute sm:relative sm:left-auto left-0 h-full translate-x-0' : 'hidden -translate-x-full'} sm:translate-x-0 sm:block`}>
+        <div className={`transform transition-transform duration-300 absolute sm:relative sm:left-auto left-0 h-full ${openSidebarMobile ? 'z-50  translate-x-0' : '-translate-x-full '} sm:translate-x-0 sm:block`}>
           <Sidebar getPinnedNotes={getPinnedNotes} getTrashNotes={getTrashNotes} getAllNotes={getAllNotes} userInfo={userInfo} setActiveTab={setActiveTab} />
         </div>
 
         {openSidebarMobile && <div onClick={() => setOpenSidebarMobile(false)}
-         className='fixed top-0 left-0 w-full h-full bg-black sm:hidden opacity-50 z-40'>
+          className='fixed top-0 left-0 w-full h-full bg-black sm:hidden opacity-50 z-40'>
         </div>}
         <div className={` transition-all duration-700 ease-in-out ${noteOpen ? "max-w-screen sm:max-w-[400px]" : " max-w-[0px]"}`}>
           <Notespage allNotes={allNotes} onNewNote={() => setIsCreateOpen(true)} setOpenSidebarMobile={setOpenSidebarMobile} getAllNotes={getAllNotes} activeTab={activeTab} onEditNote={handleOpenEditor} isCreateOpen={isCreateOpen} getTrashNotes={getTrashNotes} closeEditor={() => { setIsCreateOpen(false) }} />
