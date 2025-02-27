@@ -43,7 +43,7 @@ const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, on
                     </h1>
 
 
-                    <p className="break-words text-xs text-gray-600" >{plainText?.length > 120 ? plainText.slice(0, 120) + "." : plainText}</p>
+                    <p className="break-words text-xs text-gray-600" >{plainText?.length > 120 ? plainText.slice(0, 120) + "..." : plainText}</p>
                 </div>
 
 
