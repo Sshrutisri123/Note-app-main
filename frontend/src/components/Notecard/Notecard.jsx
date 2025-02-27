@@ -55,7 +55,7 @@ const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, on
                                 ? "Now"
                                 : moment().isSame(moment(date), 'day')
                                     ? moment(date).fromNow()
-                                    : moment().diff(moment(date), 'days') === 1
+                                    : moment().diff(moment(date), 'hours') < 24
                                         ? "Yesterday"
                                         : moment(date).format("MMMM D, YYYY")
                         }
