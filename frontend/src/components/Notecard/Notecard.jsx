@@ -5,6 +5,8 @@ import Tagcard from "../Tagcards/Tagcard"
 import { TiPinOutline, TiPin } from "react-icons/ti";
 import { PiDotsThreeOutlineLight } from "react-icons/pi";
 import { CiUndo } from "react-icons/ci";
+import { IoStarSharp } from "react-icons/io5";
+
 
 
 const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, onDelete, onRestore, onTrash }) => {
@@ -18,7 +20,7 @@ const Notecard = ({ title, content, date, activeTab, tags, isPinned, onClick, on
 
                 <div className='flex flex-col gap-2'>
                     <h1 className="flex items-center justify-between font-normal text">{title.length > 20 ? title.slice(0, 20) + "..." : title}
-                        <div className='flex items-center gap-x-4'><button>{isPinned ? <TiPin className='size-5' /> : ""}</button>
+                        <div className='flex items-center gap-x-4'><button>{isPinned ? <IoStarSharp className='size-4' /> : ""}</button>
                             <div className='relative'>
                                 <div>
                                     <button className='opacity-0 group-hover:opacity-100' onClick={(e) => { e.stopPropagation(); setDropdownOpen(!dropdownOpen); }} ><PiDotsThreeOutlineLight /></button>

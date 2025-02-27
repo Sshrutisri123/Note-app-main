@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 } from "react-icons/fi";
+import { IoStarOutline } from "react-icons/io5";
 
 
 
@@ -66,9 +67,9 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
                             setActiveTab("pinned");
                             getPinnedNotes();
                         }}>
-                        <div className='absolute left-full top-1/2 ml-2 w-20 text-sm font-normal bg-gray-950 border text-gray-50 p-1 rounded-lg shadow-lg opacity-0 translate-x-2 sm:group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 -translate-y-1/2 pointer-events-none' >Pinned Notes</div>
-                        <FiBookmark className='size-4' />
-                        <p className='sm:hidden block'>Pinned Notes</p>
+                        <div className='absolute left-full top-1/2 ml-2 w-20 text-sm font-normal bg-gray-950 border text-gray-50 p-1 rounded-lg shadow-lg opacity-0 translate-x-2 sm:group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 -translate-y-1/2 pointer-events-none' >Stared Notes</div>
+                        <IoStarOutline className='size-4' />
+                        <p className='sm:hidden block'>Stared Notes</p>
                     </button>
 
                     <button className='relative group flex items-center sm:justify-center gap-5 w-full px-2 py-2 font-semibold text-sm text-[#575656] bg-transparent hover:bg-gray-200 rounded-lg transition-all'

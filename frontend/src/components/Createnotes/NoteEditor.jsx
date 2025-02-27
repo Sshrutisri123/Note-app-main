@@ -11,6 +11,10 @@ import { TbBlockquote, TbAlignCenter, TbAlignLeft, TbAlignRight, TbHeading, TbH1
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { FaImage } from "react-icons/fa6";
 import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
+import { IoStarSharp } from "react-icons/io5";
+import { IoStarOutline } from "react-icons/io5";
+
+
 
 
 
@@ -219,7 +223,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                         <Breadcrumbs selectedNote={selectedNote} confirmTabs={confirmTabs} />
                     </div>
                 </div>
-                <div className="px-2">
+                <div className="px-2 flex">
                     {/* maximaize button */}
                     <button onClick={() => setmaximize(!maximize)} className="p-2 hidden sm:block rounded-md text-gray-950 hover:bg-gray-200">{maximize ? <FiMinimize2 /> : <FiMaximize2 />}</button>
                     {/* Close Button */}
@@ -331,7 +335,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
                 </div>
                 <div className="flex gap-2">
                     <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={togglePin}>
-                        {isPinned ? <TiPin className="size-5" /> : <TiPinOutline className="size-5" />}
+                        {isPinned ? <IoStarSharp className="size-5" /> : <IoStarOutline className="size-5" />}
                     </button>
                     <button className="px-2 py-1 rounded-md hover:bg-gray-200" onClick={() => (activeTab === 'trash' ? confirmDelete() : trashNote())} ><FiTrash className="size-4" /></button>
                     <button className="flex items-center px-2 py-1 gap-2 text-sm font-light rounded-md text-white bg-gray-950"
