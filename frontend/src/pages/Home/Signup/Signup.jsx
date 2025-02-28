@@ -31,7 +31,10 @@ const Signup = () => {
 
     // singup API call
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/signup`, { withCredentials: true });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, {
+        username: name, email, password
+      }, { withCredentials: true });
+
 
       if (res.data.status === false) {
         setError(res.data.message);
@@ -80,11 +83,11 @@ const Signup = () => {
 
           {/* Form div */}
           <div className='flex flex-col mt-5 gap-3'>
-          <div >
+            <div >
               <h3 className='text-sm'>Name</h3>
               <input className='border w-72 sm:w-80 rounded-lg h-7 p-4 mt-2 text-sm ' type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)} placeholder='enter your name'/>
+                onChange={(e) => setName(e.target.value)} placeholder='enter your name' />
             </div>
             <div >
               <h3 className='text-sm'>Email</h3>
@@ -96,7 +99,7 @@ const Signup = () => {
             <div>
               <div className='flex justify-between'>
                 <h3 className='text-sm'>Password</h3>
-                
+
               </div>
               <input className='border w-72 sm:w-80 rounded-lg h-7 p-4 mt-2 text-sm' type="password"
                 value={password}

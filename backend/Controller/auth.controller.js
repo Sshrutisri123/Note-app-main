@@ -4,32 +4,40 @@ import { errorHndler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res, next) => {
-    const { username, email, password } = req.body;
-
-    const isValidUser = await User.findOne({ email });
-
-    if (isValidUser) {
-        return next(errorHndler(400, 'User already exists'));
-    }
-
-    const hashedPassword = bcryptjs.hashSync(password, 10);
-
-    const newUser = new User({
-        username,
-        email,
-        password: hashedPassword
-    });
-
     try {
+        const { username, email, password } = req.body;
+
+        if (!username || !email || !password) {
+            return next(errorHndler(400, 'All fields are required'));
+        }
+
+        const isValidUser = await User.findOne({ email });
+
+        if (isValidUser) {
+            return next(errorHndler(400, 'User already exists'));
+        }
+
+        const hashedPassword = bcryptjs.hashSync(password, 10);
+
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword
+        });
+
         await newUser.save();
+
         return res.status(201).json({
             success: true,
             message: 'User created successfully'
         });
+
     } catch (error) {
+        console.error("Signup Error:", error);
         return next(errorHndler(500, 'Internal Server Error'));
     }
-}
+};
+
 
 export const signin = async (req, res, next) => {
     const { email, password } = req.body;
