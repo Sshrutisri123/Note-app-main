@@ -232,10 +232,9 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
 
     // add note
     const createNotify = () =>
-        toast.error("Note created successfully 😊 ", {
+        toast.success("Note created successfully 😊 ", {
             position: "top-center",
             autoClose: 2000,
-            hideProgressBar: true,
         });
     const addNote = async () => {
         try {
