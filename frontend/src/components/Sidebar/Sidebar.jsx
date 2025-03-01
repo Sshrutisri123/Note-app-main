@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import logo from '../../assets/logo/logo1.jpg'
 import profile from '../../assets/logo/profile/Profile.jpeg'
 import { signOutFailure, signOutStart, signOutSuccess } from '../../redux/user/userSlice'
@@ -16,12 +16,26 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
 
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
+    const dropdownRef = useRef(null);
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
 
+        if (dropdownOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownOpen]);
 
     const onLogOut = async () => {
         try {
@@ -122,7 +136,7 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
 
 
             {/* user icon */}
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
                 <div
                     className="flex items-center gap-3  rounded-md cursor-pointer hover:bg-gray-100 transition"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
