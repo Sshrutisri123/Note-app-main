@@ -203,7 +203,13 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     };
 
 
+
     // edit note
+    const editNotify = () =>
+        toast.success("Note updated successfully 😊 ", {
+            position: "top-center",
+            autoClose: 2000,
+        });
     const editNote = async () => {
         try {
             const token = sessionStorage.getItem("authToken")
@@ -222,6 +228,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
             }
 
             getAllNotes()
+            editNotify()
             onClose()
 
         } catch (error) {
