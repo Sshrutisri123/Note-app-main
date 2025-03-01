@@ -7,6 +7,8 @@ import Logo1 from '../../../assets/logo/logo1.jpg';
 import { FcGoogle } from "react-icons/fc";
 import { GrApple } from "react-icons/gr";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Login = () => {
@@ -15,7 +17,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,30 +41,46 @@ const Login = () => {
 
     }
     //login api
+    //Login API
     try {
       dispatch(signInStart());
+
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signin`, {
         email,
         password
-      }, { withCredentials: true }); if (res.data.success === false) {
+      });
+
+      if (res.data.status === false) {
         dispatch(signInFailure(res.data.message));
-      } else {
-
-        dispatch(signInSuccess(res.data));
-        if (rememberMe) {
-          localStorage.setItem("rememberedEmail", email);
-          localStorage.setItem("rememberedPassword", password);
-        } else {
-          localStorage.removeItem("rememberedEmail");
-          localStorage.removeItem("rememberedPassword");
-        }
-        navigate('/');
+        toast.error(res.data.message); // Notify user
+        return;
       }
-    } catch (error) {
-      console.log("error");
-      dispatch(signInFailure(error.message));
-    }
 
+      // Store token in sessionStorage
+      if (res.data.token) {
+        sessionStorage.setItem('authToken', res.data.token);
+      }
+
+      dispatch(signInSuccess(res.data));
+      toast.success("Login successful! Redirecting...", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        transition: "bounce"
+      });
+
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+      toast.error("Login failed. Please try again.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+
+        });
+    }
   };
 
   const handleSignUpRedirect = () => {
@@ -72,6 +89,7 @@ const Login = () => {
 
   return (
     <div className='flex justify-between bg-gray-100 h-dvh py-14 px-28'>
+      <ToastContainer />
       <div className='flex flex-col justify-center items-center h-full w-full '>
 
         <div className='flex justify-center items-center gap-2 mb-6'>
@@ -131,8 +149,11 @@ const Login = () => {
 
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
-
-            <button onClick={handleSubmit} className=' flex justify-center items-center w-72 sm:w-80 rounded-lg h-7 p-4 bg-black text-white font-normal mt-2 '>Sign in</button>
+            <button
+              onClick={handleSubmit}
+              className='flex justify-center items-center w-72 sm:w-80 rounded-lg h-7 p-4 bg-black text-white font-normal mt-2'>
+              Sign in
+            </button>
 
             <div className='flex justify-center items-center gap-3'>
               <hr className='w-20 sm:w-24 border-[#A09F9F] border-1' />

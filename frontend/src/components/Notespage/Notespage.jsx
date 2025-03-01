@@ -5,6 +5,7 @@ import axios from 'axios'
 import Searchbar from '../searchbar/searchbar'
 
 import logo from '../../assets/logo/logo1.jpg'
+import { toast } from 'react-toastify'
 
 
 const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOpen, onEditNote, getAllNotes, activeTab, setOpenSidebarMobile }) => {
@@ -24,9 +25,22 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
     }
   }
   //trash note
+  const trashNotify = () =>
+    toast.success("Note moved to trash 🗑️ ", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+    });
   const trashNote = async (noteId) => {
     try {
-      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/move-to-trash/${noteId}`, {}, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/move-to-trash/${noteId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (res.data.success === false) {
         console.log(res.data.message)
@@ -34,6 +48,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
       }
 
       await getAllNotes()
+      trashNotify()
       if (isCreateOpen) {
         closeEditor()
       }
@@ -45,10 +60,23 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
   }
 
   //restrore
+  const restoreNotify = () =>
+    toast.success("Note restored successfully 🔄", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+    });
 
   const restoreNote = async (noteId) => {
     try {
-      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/restore-note/${noteId}`, {}, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/restore-note/${noteId}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (res.data.success === false) {
         console.log(res.data.message)
@@ -56,6 +84,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
       }
 
       await getTrashNotes()
+      restoreNotify()
       if (isCreateOpen) {
         closeEditor()
       }
@@ -66,9 +95,22 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
     }
   }
   //delete note
+  const deleteNotify = () =>
+    toast.error("Note permanently deleted ❌", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: true,
+    });
   const deleteNote = async (noteId) => {
     try {
-      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note/${noteId}`, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note/${noteId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (res.data.success === false) {
         console.log(res.data.message)
@@ -76,6 +118,7 @@ const Notespage = ({ onNewNote, getTrashNotes, allNotes, closeEditor, isCreateOp
       }
 
       await getAllNotes()
+      deleteNotify()
       if (isCreateOpen) {
         closeEditor()
       }

@@ -54,18 +54,14 @@ export const signin = async (req, res, next) => {
         if (!isPasswordValid) {
             return next(errorHndler(401, 'Invalid credentials'));
         }
-        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+        // Generate JWT token
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const { password: _, ...rest } = validUser._doc;
 
-        const { password: pass, ...rest } = validUser._doc;
-
-        res.cookie("access_token", token, {
-            httpOnly: true,
-            sameSite: 'none',
-            secure: true
-
-        }).status(200).json({
+        res.status(200).json({
             sucess: true,
             message: "logged in successfully",
+            token,
             rest,
         });
     } catch (error) {
@@ -77,7 +73,7 @@ export const signin = async (req, res, next) => {
 
 export const signout = async (req, res, next) => {
     try {
-        res.clearCookie("access_token").status(200).json({
+        res.status(200).json({
             success: true,
             message: "logged out successfully"
         });

@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import logo1 from '../../assets/logo/logo1.jpg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Home = () => {
 
@@ -41,7 +44,14 @@ const Home = () => {
   // get all notes API
   const getAllNotes = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/all`, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/all`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (res.data.success === false) {
         console.log(res.data)
@@ -59,7 +69,14 @@ const Home = () => {
 
   const getPinnedNotes = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/pinned`, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/pinned`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
       if (res.data.success === false) {
         console.log(res.data)
       }
@@ -72,10 +89,18 @@ const Home = () => {
     }
   }
   //get trashed notes
+  
 
   const getTrashNotes = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/trash`, { withCredentials: true })
+      const token = sessionStorage.getItem("authToken")
+
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/note/trash`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
 
       if (res.data.success === false) {
         console.log(res.data)
@@ -98,6 +123,8 @@ const Home = () => {
 
   return (
     <div className='flex bg-gray-50 flex-col h-screen'>
+      <ToastContainer />
+
       <div className='flex h-screen overflow-hidden'>
         <div className={`transform transition-transform duration-300 absolute sm:relative sm:left-auto left-0 h-full ${openSidebarMobile ? 'z-50  translate-x-0' : '-translate-x-full '} sm:translate-x-0 sm:block`}>
           <Sidebar getPinnedNotes={getPinnedNotes} getTrashNotes={getTrashNotes} getAllNotes={getAllNotes} userInfo={userInfo} setActiveTab={setActiveTab} />

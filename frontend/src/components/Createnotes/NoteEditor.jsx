@@ -13,6 +13,7 @@ import { FaImage } from "react-icons/fa6";
 import { AiOutlineMergeCells, AiOutlineSplitCells } from "react-icons/ai";
 import { IoStarSharp } from "react-icons/io5";
 import { IoStarOutline } from "react-icons/io5";
+import { toast } from 'react-toastify'
 
 
 
@@ -86,7 +87,22 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
 
 
     //toggle pin
+    const pinnedNotify = () =>
+        toast.success("Note Pinned successfully 📍", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
+
+    const unpinnedNotify = () =>
+        toast.info("Note Unpinned Successfully 📌", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
+
     const togglePin = () => {
+        isPinned ? unpinnedNotify() : pinnedNotify()
         setIsPinned((prev) => (!prev))
     }
 
@@ -105,6 +121,12 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     }
 
     //trash note
+    const trashNotify = () =>
+        toast.error("Note moved to trash 🗑️ ", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
     const trashNote = async () => {
 
         if (!selectedNote?._id) {
@@ -114,7 +136,14 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         }
 
         try {
-            const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/move-to-trash/${selectedNote._id}`, {}, { withCredentials: true })
+            const token = sessionStorage.getItem("authToken")
+
+            const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/note/move-to-trash/${selectedNote._id}`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -123,6 +152,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
             }
 
             await getAllNotes()
+            trashNotify()
             onClose()
 
         } catch (error) {
@@ -141,7 +171,14 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
         }
 
         try {
-            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note/${selectedNote._id}`, { withCredentials: true })
+            const token = sessionStorage.getItem("authToken")
+
+            const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/note/delete-note/${selectedNote._id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -169,7 +206,14 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     // edit note
     const editNote = async () => {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/edit-note/${selectedNote._id}`, { title, content, tags, isPinned }, { withCredentials: true })
+            const token = sessionStorage.getItem("authToken")
+
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/edit-note/${selectedNote._id}`, { title, content, tags, isPinned }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -187,11 +231,24 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
     }
 
     // add note
+    const createNotify = () =>
+        toast.error("Note created successfully 😊 ", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+        });
     const addNote = async () => {
         try {
+            const token = sessionStorage.getItem("authToken")
+
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/note/add-note`,
                 { title, content, tags, isPinned },
-                { withCredentials: true })
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
 
             if (res.data.success === false) {
                 console.log(res.data.message)
@@ -200,6 +257,7 @@ const NoteEditor = ({ onClose, getAllNotes, selectedNote, noteClose, activeTab }
             }
 
             getAllNotes()
+            createNotify()
             onClose()
 
             setTitle("");

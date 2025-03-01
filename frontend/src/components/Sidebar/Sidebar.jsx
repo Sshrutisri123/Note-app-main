@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { FiLogOut, FiSettings, FiLock, FiStar, FiBookOpen, FiBookmark, FiTrash2 } from "react-icons/fi";
 import { IoStarOutline } from "react-icons/io5";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -24,21 +25,48 @@ const Sidebar = ({ userInfo, getTrashNotes, getAllNotes, getPinnedNotes, setActi
 
     const onLogOut = async () => {
         try {
-            dispatch(signOutStart())
+            dispatch(signOutStart());
+            const token = sessionStorage.getItem("authToken");
 
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signout`, {}, { withCredentials: true });
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signout`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
             if (res.data.success === false) {
-                dispatch(signOutFailure(res.data.message))
+                dispatch(signOutFailure(res.data.message));
+                return;
             }
 
-            dispatch(signOutSuccess())
-            navigate('/Login')
+            dispatch(signOutSuccess());
+            sessionStorage.removeItem("authToken");
+
+            // Show toast notification
+            toast.success("Logged out successfully 🚀", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+            });
+
+            // Delay navigation to allow toast to be visible
+            setTimeout(() => {
+                navigate('/Login');
+            }, 1000);
 
         } catch (error) {
-            dispatch(signOutFailure(error.message))
+            dispatch(signOutFailure(error.message));
+            toast.error("Logout failed ❌", {
+                position: "top-right",
+                autoClose: 3000,
+            });
         }
-    }
+    };
 
     return (
         <aside className="h-full bg-zinc-100 sm:w-14 w-full flex flex-col p-2 border-r border-gray-300 justify-between">
