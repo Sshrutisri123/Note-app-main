@@ -9,6 +9,7 @@ import { GrApple } from "react-icons/gr";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../../../components/loader/loader';
 
 
 const Login = () => {
@@ -17,6 +18,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,6 +39,8 @@ const Login = () => {
     if (!email || !password) {
       setError("Email and Password are required");
     } else {
+      setLoading(true); // ✅ Set loading to true when request starts
+
       setError("");
 
     }
@@ -53,6 +57,8 @@ const Login = () => {
       if (res.data.status === false) {
         dispatch(signInFailure(res.data.message));
         toast.error(res.data.message); // Notify user
+        setLoading(false);
+
         return;
       }
 
@@ -62,14 +68,11 @@ const Login = () => {
       }
 
       dispatch(signInSuccess(res.data));
-      toast.success("Login successful! Redirecting...", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        transition: "bounce"
-      });
+      
 
       setTimeout(() => {
+        setLoading(false);
+
         navigate('/');
       }, 2000);
     } catch (error) {
@@ -79,13 +82,17 @@ const Login = () => {
         autoClose: 2000,
         hideProgressBar: true,
 
-        });
+      });
+      setLoading(false);
     }
   };
 
   const handleSignUpRedirect = () => {
     navigate('/signup');
   };
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className='flex justify-between bg-gray-100 h-dvh py-14 px-28'>
