@@ -10,7 +10,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../../../components/loader/loader';
-import { auth, provider, signInWithPopup } from "../../../firebaseConfig";  // ✅ Firebase Config Import
+import { auth, provider, signInWithRedirect, getRedirectResult } from "../../../firebaseConfig";  // ✅ Fixed Import
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +29,50 @@ const Login = () => {
       setPassword(savedPassword);
     }
   }, []);
+
+  // ✅ Handle Google Sign-In After Redirect
+  useEffect(() => {
+    const checkGoogleSignIn = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result?.user) {
+          const user = result.user;
+          console.log("Google User:", user);
+
+          dispatch(signInStart());
+
+          const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/google-signin`, {
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+          });
+
+          if (!res.data.status) {
+            dispatch(signInFailure(res.data.message));
+            toast.error(res.data.message);
+            return;
+          }
+
+          if (res.data.token) {
+            sessionStorage.setItem('authToken', res.data.token);
+          }
+
+          dispatch(signInSuccess(res.data));
+          toast.success(`Welcome, ${user.displayName}!`);
+
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+        }
+      } catch (error) {
+        console.error("Google Sign-In Error:", error);
+        toast.error("Google Sign-In failed. Please try again.");
+        dispatch(signInFailure(error.message));
+      }
+    };
+
+    checkGoogleSignIn();
+  }, [dispatch, navigate]);
 
   // ✅ Handle Manual Login (Email & Password)
   const handleSubmit = async (e) => {
@@ -50,7 +94,7 @@ const Login = () => {
         password
       });
 
-      if (res.data.status === false) {
+      if (!res.data.status) {
         dispatch(signInFailure(res.data.message));
         toast.error(res.data.message);
         setLoading(false);
@@ -75,42 +119,10 @@ const Login = () => {
     }
   };
 
-  // ✅ Handle Google Sign-In
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      console.log("Google User:", user);
-
-      dispatch(signInStart());
-
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/google-signin`, {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-      });
-
-      if (res.data.status === false) {
-        dispatch(signInFailure(res.data.message));
-        toast.error(res.data.message);
-        return;
-      }
-
-      if (res.data.token) {
-        sessionStorage.setItem('authToken', res.data.token);
-      }
-
-      dispatch(signInSuccess(res.data));
-      toast.success(`Welcome, ${user.displayName}!`);
-
-      setTimeout(() => {
-        navigate('/');
-      }, 2000);
-    } catch (error) {
-      console.error("Google Sign-In Error:", error);
-      toast.error("Google Sign-In failed. Please try again.");
-    }
+  // ✅ Handle Google Sign-In with Redirect
+  const handleGoogleSignIn = () => {
+    dispatch(signInStart());
+    signInWithRedirect(auth, provider);
   };
 
   const handleSignUpRedirect = () => {
@@ -155,7 +167,6 @@ const Login = () => {
             <div>
               <div className='flex justify-between'>
                 <h3 className='text-sm'>Password</h3>
-                <h3 className='text-sm cursor-pointer text-blue-500'>Forgot password?</h3>
               </div>
               <div className="relative">
                 <input
