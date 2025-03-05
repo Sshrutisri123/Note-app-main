@@ -33,6 +33,7 @@
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "axios": "^1.7.9",
+    "firebase": "^11.4.0",
     "html-react-parser": "^5.2.2",
     "lowlight": "^3.3.0",
     "moment": "^2.30.1",
